@@ -9,6 +9,8 @@ add_executable(dynamic
         XmlLoader.h XmlLoader.h
         S100RulesParser/private/S101Primitives.h S100RulesParser/private/S101Primitives.cpp)
 
+add_subdirectory(S100RulesParser)
+
 target_link_libraries(dynamic tinyxml)
 
 target_include_directories(dynamic PRIVATE "${PROJECT_SOURCE_DIR}/lib")
