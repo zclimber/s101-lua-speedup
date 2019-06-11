@@ -1,7 +1,5 @@
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(${PROJECT_SOURCE_DIR})
-
 add_library(cpp_portrayal STATIC
         ChooseRule.h private/ChooseRule.cpp
         private/AttrCodes.h
