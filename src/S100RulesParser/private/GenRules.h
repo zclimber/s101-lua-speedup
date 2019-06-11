@@ -6,8 +6,8 @@
 *
 */
 
-#include "stdlib.h"
-#include "src/IObjectDrawer.h"
+#include "cstdlib"
+#include "IObjectDrawer.h"
 
 void DrawAdministrationArea(IObjectDrawer *object_drawer, int index_feature);
 
