@@ -250,8 +250,8 @@ int Host_GetSpatial(lua_State *l) {
             lua_call(l, 2, 1);
             return 1;
         case Unknown:
+        default:
             lua_err(l, "Requested unknown spatial");
-            return 0;
     }
 }
 
@@ -521,9 +521,9 @@ int runInitialLua(TestObjectDrawer &testObjectDrawer, const std::string &prefix,
 //    doStringPrintErr(L, "require('mobdebug').start()");
 
     setContextParameters(L, testObjectDrawer.GetContext());
-    runLuaTimes(L, std::max(2, warmup));
+    runPortrayalMainTimes(L, std::max(2, warmup));
     timer t("Their lua");
-    runLuaTimes(L, runs);
+    runPortrayalMainTimes(L, runs);
     testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
     int time = t.stop();
 

@@ -44,3 +44,17 @@ int doStringPrintErr(lua_State *state, const char *string, bool print_error) {
     }
     return 0;
 }
+
+void runPortrayalMainTimes(lua_State *L, int times) {
+    for (int i = 0; i < times; i++) {
+        lua_getglobal(L, "portrayal_main");
+        lua_pushstring(L, "testset");
+        int res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return;
+        }
+    }
+}
+

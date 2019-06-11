@@ -7,7 +7,7 @@
 #include "S100RulesParser/ChooseRule.h"
 #include "InitialLuaPortrayal/InitialLua.h"
 //#include "ModLua/ModLua.h"
-//#include "MyLua/MyLua.h"
+#include "ConvertedLuaPortrayal/ConvertedLua.h"
 #include "GeneratedLists.h"
 
 void printCatalogueStuff(TestObjectDrawer &drawer) {
@@ -120,10 +120,10 @@ int main() {
 //    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
 //    std::cerr.flush();
 //
-//    my = runMyLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
-//    std::cerr.flush();
-//    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
-//    std::cerr.flush();
+    my = runMyLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
+    std::cerr.flush();
+    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
+    std::cerr.flush();
 
     std::cout << cpp / countRuns << " " << th / countRuns;// << " " << mod / countRuns << " " << my / countRuns;
 

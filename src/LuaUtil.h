@@ -15,4 +15,6 @@ void addLuaCFunction(lua_State *state, lua_CFunction func, const char *name);
 
 int doStringPrintErr(lua_State *state, const char *string, bool print_error = true);
 
+void runPortrayalMainTimes(lua_State *L, int times = 1);
+
 #endif //DYNAMIC_LUAUTIL_H
