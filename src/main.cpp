@@ -85,7 +85,7 @@ int main() {
                                      "101CA00573356", "101CA00673225"};
     std::vector<int> testFeatures;
 //    const int countRuns = 1;
-    const int countRuns = 500;
+    const int countRuns = 200;
     for (auto &x : maps) {
         std::cout << x << "\n";
         TestObjectDrawer drawer = readFromXML(m + x + ".usf.xml");

@@ -421,7 +421,7 @@ int Host_FeaturePortrayal_Emit(lua_State *l) {
                 // Weight, Serifs bool, Slant
 
             } else if (type == "TextLine") {
-                lua_err(l, "TextLine not yet implemented");
+//                lua_err(l, "TextLine not yet implemented");
             }
         } else {
 //            std::cerr << type << "\n"; // TODO other instructions

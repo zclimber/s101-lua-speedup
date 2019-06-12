@@ -20,7 +20,7 @@ function Portrayals.Waterfall(feature, featurePortrayal, contextParameters)
         error('Invalid primitive type or mariner settings passed to portrayal')
     end
 
-    if #featurePortrayal.DrawingInstructions == 0 then
+    if featurePortrayal:GetInstructionCount() == 0 then
         featurePortrayal:AddNullInstruction()
     end
 end
