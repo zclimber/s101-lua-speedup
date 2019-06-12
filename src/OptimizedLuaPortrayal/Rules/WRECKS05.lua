@@ -6,7 +6,8 @@ require 'SNDFRM04'
 require 'UDWHAZ05'
 
 -- Main entry point for CSP.
-function WRECKS05(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.WRECKS05(feature, featurePortrayal, contextParameters)
     local DEPTH_VALUE = feature.valueOfSounding or feature.defaultClearanceDepth
 
     if not DEPTH_VALUE then
@@ -21,8 +22,8 @@ function WRECKS05(feature, featurePortrayal, contextParameters)
         end
     end
 
-    local hazardSymbol = UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
-    local qualitySymbol = QUAPNT02(feature, featurePortrayal, contextParameters)
+    local hazardSymbol = Portrayals.UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
+    local qualitySymbol = Portrayals.QUAPNT02(feature, featurePortrayal, contextParameters)
 
     if feature.PrimitiveType == PrimitiveType.Point then
         if hazardSymbol then
@@ -40,7 +41,7 @@ function WRECKS05(feature, featurePortrayal, contextParameters)
                     featurePortrayal:AddPointInstruction('DANGER02')
                 end
 
-                local symbols = SNDFRM04(feature, featurePortrayal, contextParameters, feature.Point, DEPTH_VALUE)
+                local symbols = Portrayals.SNDFRM04(feature, featurePortrayal, contextParameters, feature.Point, DEPTH_VALUE)
 
                 for _, symbol in ipairs(symbols) do
                     featurePortrayal:AddPointInstruction(symbol)
@@ -100,7 +101,7 @@ function WRECKS05(feature, featurePortrayal, contextParameters)
             if hazardSymbol then
                 featurePortrayal:AddPointInstruction(hazardSymbol)
             else
-                local symbols = SNDFRM04(feature, featurePortrayal, contextParameters, CreatePoint(0, 0), DEPTH_VALUE)
+                local symbols = Portrayals.SNDFRM04(feature, featurePortrayal, contextParameters, CreatePoint(0, 0), DEPTH_VALUE)
 
                 for _, symbol in ipairs(symbols) do
                     featurePortrayal:AddPointInstruction(symbol)

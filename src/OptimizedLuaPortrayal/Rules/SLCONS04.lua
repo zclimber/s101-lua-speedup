@@ -4,7 +4,8 @@
 require 'QUAPNT02'
 
 -- Main entry point for CSP.
-function SLCONS04(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SLCONS04(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         local symbol = QUAPNT02(feature, featurePortrayal, contextParameters)
 

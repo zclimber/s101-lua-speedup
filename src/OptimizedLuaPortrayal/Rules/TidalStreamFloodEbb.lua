@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function TidalStreamFloodEbb(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.TidalStreamFloodEbb(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfTidalStream == 1 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')

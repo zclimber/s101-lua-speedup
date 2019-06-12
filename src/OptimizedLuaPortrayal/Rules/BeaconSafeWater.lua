@@ -4,7 +4,8 @@
 require 'TOPMAR01'
 
 -- Main entry point for feature type.
-function BeaconSafeWater(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.BeaconSafeWater(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.beaconShape == 1 then
             featurePortrayal:SetDisplayParameters(27020, 8, nil, nil, 'OverRADAR')

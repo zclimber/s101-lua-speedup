@@ -6,7 +6,8 @@
 require 'SNDFRM04'
 
 -- Main entry point for CSP.
-function DepthNoBottomFound(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DepthNoBottomFound(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.MultiPoint then
         featurePortrayal:SetDisplayParameters(33010, 6, nil, nil, 'OverRADAR')
         local points = feature.MultiPoint.Points

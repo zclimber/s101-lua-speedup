@@ -4,7 +4,8 @@
 require 'WRECKS05'
 
 -- Main entry point for feature type.
-function Wreck(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Wreck(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfWreck == 3 and feature.valueOfSounding then
             featurePortrayal:SetDisplayParameters(34051, 4, nil, nil, 'OverRADAR')
@@ -14,7 +15,7 @@ function Wreck(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddPointInstruction('FOULGND1')
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'OverRADAR')
-            WRECKS05(feature, featurePortrayal, contextParameters)
+            Portrayals.WRECKS05(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Point then
         if feature.categoryOfWreck == 3 and feature.valueOfSounding then
@@ -25,7 +26,7 @@ function Wreck(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddPointInstruction('FOULGND1')
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'OverRADAR')
-            WRECKS05(feature, featurePortrayal, contextParameters)
+            Portrayals.WRECKS05(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.categoryOfWreck == 3 and feature.valueOfSounding then
@@ -36,7 +37,7 @@ function Wreck(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHBLK'))
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'UnderRADAR')
-            WRECKS05(feature, featurePortrayal, contextParameters)
+            Portrayals.WRECKS05(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.categoryOfWreck == 3 and feature.valueOfSounding then
@@ -47,7 +48,7 @@ function Wreck(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction('NAVARE51')
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'UnderRADAR')
-            WRECKS05(feature, featurePortrayal, contextParameters)
+            Portrayals.WRECKS05(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

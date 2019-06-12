@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function FenceWall(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.FenceWall(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.visuallyConspicuous then
             featurePortrayal:SetDisplayParameters(22220, 3, nil, nil, 'OverRADAR')

@@ -14,7 +14,8 @@ local function flipSector(sector)
 end
 
 -- Main entry point for feature type.
-function LightSectored(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.LightSectored(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType ~= PrimitiveType.Point then
         error('LightSectored must be of spatial type point')
     end

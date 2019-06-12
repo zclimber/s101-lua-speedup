@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function CableArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.CableArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
         featurePortrayal:AddPointInstruction('CBLARE51')

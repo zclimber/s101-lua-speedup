@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Conveyor(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Conveyor(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfConveyor == 1 and feature.radarConspicuous then
             featurePortrayal:SetDisplayParameters(12210, 8, nil, nil, 'OverRADAR')

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function FloatingDock(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.FloatingDock(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:SetDisplayParameters(12410, 5, nil, nil, 'OverRADAR')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleSolid(0.96, 'CSTLN'))

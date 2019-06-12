@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function SweptArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SweptArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(23030, 4, nil, nil, 'UnderRADAR')
         featurePortrayal:AddPointInstruction('SWPARE51')

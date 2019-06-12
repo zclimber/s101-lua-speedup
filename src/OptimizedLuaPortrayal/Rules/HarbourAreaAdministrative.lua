@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function HarbourAreaAdministrative(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.HarbourAreaAdministrative(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(36020, 2, nil, nil, 'UnderRADAR')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHGRD'))

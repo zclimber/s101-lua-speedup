@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Vegetation(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Vegetation(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfVegetation == 7 then
             featurePortrayal:SetDisplayParameters(32030, 3, nil, nil, 'UnderRADAR')

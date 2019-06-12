@@ -4,7 +4,8 @@
 require 'DEPARE03'
 
 -- Main entry point for feature type.
-function DredgedArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DredgedArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface then
         -- Plain and symbolized boundaries use the same symbolization
         featurePortrayal:SetDisplayParameters(13030, 1, nil, nil, 'UnderRADAR')

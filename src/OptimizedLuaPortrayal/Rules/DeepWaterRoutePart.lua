@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function DeepWaterRoutePart(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DeepWaterRoutePart(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.orientation and feature.orientation.orientationValue and feature.trafficFlow == 1 then
             featurePortrayal:SetDisplayParameters(25010, 4, nil, nil, 'UnderRADAR')

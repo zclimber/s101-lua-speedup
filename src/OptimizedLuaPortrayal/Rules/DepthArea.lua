@@ -4,7 +4,8 @@
 require 'DEPARE03'
 
 -- Main entry point for feature type.
-function DepthArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DepthArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:AddNullInstruction()
     elseif feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
@@ -15,7 +16,7 @@ function DepthArea(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleSolid(0.64, 'CHGRD'))
         else
             featurePortrayal:SetDisplayParameters(13030, 1, nil, nil, 'UnderRADAR')
-            DEPARE03(feature, featurePortrayal, contextParameters)
+            Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.depthRangeMinimumValue == unknownValue and feature.depthRangeMaximumValue == unknownValue then
@@ -25,7 +26,7 @@ function DepthArea(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleSolid(0.64, 'CHGRD'))
         else
             featurePortrayal:SetDisplayParameters(13030, 1, nil, nil, 'UnderRADAR')
-            DEPARE03(feature, featurePortrayal, contextParameters)
+            Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

@@ -6,18 +6,19 @@ require 'SAFCON01'
 require 'SEABED01'
 
 -- Main entry point for CSP.
-function DEPARE03(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
     local depthRangeMinimumValue = feature.depthRangeMinimumValue or -1.0
     local depthRangeMaximumValue = feature.depthRangeMaximumValue or depthRangeMinimumValue + 0.01
 
-    SEABED01(feature, featurePortrayal, contextParameters, depthRangeMinimumValue, depthRangeMaximumValue)
+    Portrayals.SEABED01(feature, featurePortrayal, contextParameters, depthRangeMinimumValue, depthRangeMaximumValue)
 
     if feature.Code == 'DredgedArea' then
         featurePortrayal:AddAreaInstruction('DRGARE01')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRF'))
 
         if #feature.restriction > 0 then
-            RESCSP03(feature, featurePortrayal, contextParameters)
+            Portrayals.RESCSP03(feature, featurePortrayal, contextParameters)
         end
     end
 

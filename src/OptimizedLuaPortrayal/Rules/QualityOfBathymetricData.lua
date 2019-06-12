@@ -1,7 +1,8 @@
 -- QualityOfBathymetricData portrayal rules file.
 
 -- Main entry point for feature type.
-function QualityOfBathymetricData(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.QualityOfBathymetricData(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType ~= PrimitiveType.Surface then
         error('Invalid primitive type or mariner settings passed to portrayal')
     end

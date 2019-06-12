@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function Fairway(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Fairway(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.orientation and feature.orientation.orientationValue and feature.trafficFlow == 1 then
             featurePortrayal:SetDisplayParameters(26050, 4, nil, nil, 'UnderRADAR')

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function DeepWaterRouteCenterline(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DeepWaterRouteCenterline(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfRecommendedTrack == 1 and feature.trafficFlow == 1 then
             featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'OverRADAR')

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function DistanceMark(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DistanceMark(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfDistanceMark == 1 then
             featurePortrayal:SetDisplayParameters(27030, 7, nil, nil, 'OverRADAR')

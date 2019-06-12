@@ -6,7 +6,8 @@ require 'UDWHAZ05'
 require 'SNDFRM04'
 
 -- Main entry point for CSP.
-function OBSTRN07(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
     local DEPTH_VALUE = feature.valueOfSounding or feature.defaultClearanceDepth
 
     if not DEPTH_VALUE then
@@ -19,13 +20,13 @@ function OBSTRN07(feature, featurePortrayal, contextParameters)
         end
     end
 
-    local hazardSymbol = UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
+    local hazardSymbol = Portrayals.UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
 
     local valueOfSounding = feature.valueOfSounding
 
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Continuation A
-        local qualitySymbol = QUAPNT02(feature, featurePortrayal, contextParameters)
+        local qualitySymbol = Portrayals.QUAPNT02(feature, featurePortrayal, contextParameters)
 
         if hazardSymbol then
             featurePortrayal:AddPointInstruction(hazardSymbol)

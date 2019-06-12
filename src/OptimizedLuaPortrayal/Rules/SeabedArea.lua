@@ -1,5 +1,6 @@
 -- Main entry point for feature type.
-function SeabedArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SeabedArea(feature, featurePortrayal, contextParameters)
     local function AddNatureOfSurfaceText()
         local natureOfSurfaceAbbrev = {
             [1] = 'M',

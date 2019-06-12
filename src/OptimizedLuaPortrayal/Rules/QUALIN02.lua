@@ -1,7 +1,8 @@
 ﻿-- QUALIN02 conditional symbology rules file.
 
 -- Main entry point for CSP.
-function QUALIN02(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.QUALIN02(feature, featurePortrayal, contextParameters)
     for curveAssociation in feature:GetFlattenedSpatialAssociations() do
         local spatialQuality = curveAssociation.Spatial:GetInformationAssociation('spatialQuality')
         local qualityOfPosition = spatialQuality and spatialQuality.qualityOfPosition

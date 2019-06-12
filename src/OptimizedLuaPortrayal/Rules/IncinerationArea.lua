@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function IncinerationArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.IncinerationArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(26250, 4, nil, nil, 'OverRADAR')

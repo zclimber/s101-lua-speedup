@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function CurrentNonGravitational(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.CurrentNonGravitational(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.orientation and feature.orientation.orientationValue and feature.currentVelocity and feature.currentVelocity.velocityMaximum then
             featurePortrayal:SetDisplayParameters(33060, 5, nil, nil, 'OverRADAR')

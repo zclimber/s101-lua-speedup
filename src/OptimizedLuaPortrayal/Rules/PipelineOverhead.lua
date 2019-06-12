@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function PipelineOverhead(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.PipelineOverhead(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.radarConspicuous then
             featurePortrayal:SetDisplayParameters(12210, 8, nil, nil, 'OverRADAR')

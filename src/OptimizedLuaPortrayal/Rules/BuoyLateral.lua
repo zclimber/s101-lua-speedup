@@ -4,7 +4,8 @@
 require 'TOPMAR01'
 
 -- Main entry point for feature type.
-function BuoyLateral(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.BuoyLateral(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.buoyShape == 1 and feature.colour[1] == 3 and feature.colour[2] == 4 and feature.colour[3] == 3 then
             featurePortrayal:SetDisplayParameters(27010, 8, nil, nil, 'OverRADAR')

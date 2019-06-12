@@ -4,8 +4,9 @@
 require 'RESCSP03'
 
 -- Main entry point for CSP.
-function RESTRN01(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
     if feature.restriction then
-        RESCSP03(feature, featurePortrayal, contextParameters)
+        Portrayals.RESCSP03(feature, featurePortrayal, contextParameters)
     end
 end

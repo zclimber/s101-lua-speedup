@@ -4,7 +4,8 @@
 require 'TOPMAR01'
 
 -- Main entry point for feature type.
-function BuoySafeWater(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.BuoySafeWater(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         featurePortrayal:SetDisplayParameters(27010, 8, nil, nil, 'OverRADAR')
         featurePortrayal:AddPointInstruction('BOYSAW12')

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function QualityOfSurvey(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.QualityOfSurvey(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:AddNullInstruction()
     elseif feature.PrimitiveType == PrimitiveType.Surface then

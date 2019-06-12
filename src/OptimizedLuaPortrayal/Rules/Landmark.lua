@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Landmark(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Landmark(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfLandmark[1] == 15 and feature['function'][1] == 20 and feature.visuallyConspicuous then
             featurePortrayal:SetDisplayParameters(22220, 6, nil, nil, 'OverRADAR')

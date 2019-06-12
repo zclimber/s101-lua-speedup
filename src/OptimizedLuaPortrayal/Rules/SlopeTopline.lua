@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function SlopeTopline(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SlopeTopline(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.visuallyConspicuous then
             featurePortrayal:SetDisplayParameters(22220, 3, nil, nil, 'UnderRADAR')

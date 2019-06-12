@@ -4,7 +4,8 @@
 require 'OBSTRN07'
 
 -- Main entry point for feature type.
-function Obstruction(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfObstruction == 7 and feature.valueOfSounding then
             featurePortrayal:SetDisplayParameters(34051, 4, nil, nil, 'OverRADAR')

@@ -73,7 +73,8 @@ local rigidTopmarks = {
 }
 
 -- Main entry point for CSP.
-function TOPMAR01(feature, featurePortrayal, contextParameters, isFloating)
+local Portrayals = Portrayals
+function Portrayals.TOPMAR01(feature, featurePortrayal, contextParameters, isFloating)
     local topmarkSymbol = 'QUESMRK1'
 
     if feature.topmark then

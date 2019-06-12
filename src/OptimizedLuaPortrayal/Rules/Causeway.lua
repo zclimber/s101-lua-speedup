@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Causeway(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Causeway(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.waterLevelEffect == 4 then
             featurePortrayal:SetDisplayParameters(22010, 5, nil, nil, 'OverRADAR')

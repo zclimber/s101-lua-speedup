@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function SeaAreaNamedWaterArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SeaAreaNamedWaterArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(21060, 3, nil, nil, 'UnderRADAR')

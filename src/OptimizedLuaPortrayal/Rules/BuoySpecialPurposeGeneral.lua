@@ -4,7 +4,8 @@
 require 'TOPMAR01'
 
 -- Main entry point for feature type.
-function BuoySpecialPurposeGeneral(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.BuoySpecialPurposeGeneral(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfSpecialPurposeMark[1] == 19 and feature.buoyShape == 1 then
             featurePortrayal:SetDisplayParameters(27010, 8, nil, nil, 'OverRADAR')

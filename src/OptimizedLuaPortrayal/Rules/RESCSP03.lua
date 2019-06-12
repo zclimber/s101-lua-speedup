@@ -1,7 +1,8 @@
 ﻿-- RESCSP03 conditional symbology rules file.
 
 -- Main entry point for CSP.
-function RESCSP03(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RESCSP03(feature, featurePortrayal, contextParameters)
     local restriction = feature.restriction
 
     if contains(restriction, { 7, 8, 14 }) then

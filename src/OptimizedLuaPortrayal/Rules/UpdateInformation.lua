@@ -3,6 +3,7 @@
 -- UNOFFICIAL: This feature is purely informational so no portrayal needed.
 
 -- Main entry point for CSP.
-function UpdateInformation(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.UpdateInformation(feature, featurePortrayal, contextParameters)
     featurePortrayal:AddNullInstruction()
 end

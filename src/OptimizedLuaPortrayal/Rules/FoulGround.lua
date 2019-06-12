@@ -3,7 +3,8 @@
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for OBSTRN where CATOBS = 7.
 
 -- Main entry point for feature type.
-function FoulGround(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.FoulGround(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         if feature.valueOfSounding then
             featurePortrayal:SetDisplayParameters(34051, 4, nil, nil, 'OverRADAR')

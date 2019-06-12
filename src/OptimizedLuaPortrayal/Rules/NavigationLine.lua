@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function NavigationLine(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.NavigationLine(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfNavigationLine == 1 then
             featurePortrayal:SetDisplayParameters(25010, 4, nil, nil, 'OverRADAR')

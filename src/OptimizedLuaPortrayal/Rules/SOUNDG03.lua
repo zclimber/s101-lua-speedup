@@ -4,7 +4,8 @@
 require 'SNDFRM04'
 
 -- Main entry point for CSP.
-function SOUNDG03(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SOUNDG03(feature, featurePortrayal, contextParameters)
     local points = feature.MultiPoint.Points
 
     for i, point in ipairs(points) do

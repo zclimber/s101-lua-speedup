@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function RadioCallingInPoint(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RadioCallingInPoint(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.trafficFlow == 1 and feature.orientationValue[1] then
             featurePortrayal:SetDisplayParameters(25060, 6, nil, nil, 'OverRADAR')

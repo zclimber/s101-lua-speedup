@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function StraightTerritorialSeaBaseline(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.StraightTerritorialSeaBaseline(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:SetDisplayParameters(36050, 3, nil, nil, 'OverRADAR')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRF'))

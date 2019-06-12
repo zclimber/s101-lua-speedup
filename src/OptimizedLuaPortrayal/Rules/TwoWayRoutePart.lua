@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function TwoWayRoutePart(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.TwoWayRoutePart(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.orientation and feature.orientation.orientationValue and feature.trafficFlow == 1 then
             featurePortrayal:SetDisplayParameters(25010, 4, nil, nil, 'UnderRADAR')

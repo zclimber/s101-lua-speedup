@@ -59,7 +59,8 @@ local statuses = {
 }
 
 -- Main entry point for CSP.
-function LITDSN02(categoryOfLight, rhythmOfLight, lightColour, height, valueOfNominalRange, status)
+local Portrayals = Portrayals
+function Portrayals.LITDSN02(categoryOfLight, rhythmOfLight, lightColour, height, valueOfNominalRange, status)
     local description = categoryOfLights[categoryOfLight] or ''
 
     if rhythmOfLight then

@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function InshoreTrafficZone(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.InshoreTrafficZone(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(25010, 5, nil, nil, 'UnderRADAR')
         featurePortrayal:AddPointInstruction('ITZARE51')

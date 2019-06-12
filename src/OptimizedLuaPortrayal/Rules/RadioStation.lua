@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function RadioStation(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RadioStation(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfRadioStation == 10 then
             featurePortrayal:SetDisplayParameters(38010, 4, nil, nil, 'OverRADAR')

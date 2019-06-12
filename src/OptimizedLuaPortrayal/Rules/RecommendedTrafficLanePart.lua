@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function RecommendedTrafficLanePart(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RecommendedTrafficLanePart(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(25020, 4, nil, nil, 'OverRADAR')

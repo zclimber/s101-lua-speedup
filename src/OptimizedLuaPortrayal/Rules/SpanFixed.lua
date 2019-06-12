@@ -2,7 +2,8 @@
 
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for BRIDGE.
 
-function SpanFixed(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SpanFixed(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:AddNullInstruction()

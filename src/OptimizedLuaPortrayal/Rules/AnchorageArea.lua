@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function AnchorageArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.AnchorageArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(26220, 6, nil, nil, 'OverRADAR')

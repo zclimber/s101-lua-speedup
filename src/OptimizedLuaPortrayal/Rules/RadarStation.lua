@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function RadarStation(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RadarStation(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfRadarStation[1] == 2 then
             featurePortrayal:SetDisplayParameters(38010, 5, nil, nil, 'OverRADAR')

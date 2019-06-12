@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function LightVessel(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.LightVessel(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         featurePortrayal:SetDisplayParameters(27011, 8, nil, nil, 'OverRADAR')
         featurePortrayal:AddPointInstruction('LITVES02')

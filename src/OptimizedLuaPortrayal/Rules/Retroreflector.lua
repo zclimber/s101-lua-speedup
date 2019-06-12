@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Retroreflector(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Retroreflector(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         featurePortrayal:SetDisplayParameters(27080, 6, nil, nil, 'OverRADAR')
         featurePortrayal:AddPointInstruction('RETRFL02')

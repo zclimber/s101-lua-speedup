@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function ContinentalShelfArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.ContinentalShelfArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface then
         -- Plain and symbolized boundaries use the same symbolization
         featurePortrayal:SetDisplayParameters(36010, 2, nil, nil, 'UnderRADAR')

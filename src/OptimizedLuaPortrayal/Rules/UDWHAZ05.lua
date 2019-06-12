@@ -1,7 +1,8 @@
 ﻿-- UDWHAZ05 conditional symbology rules file.
 
 -- Main entry point for CSP.
-function UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
+local Portrayals = Portrayals
+function Portrayals.UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
     if DEPTH_VALUE <= contextParameters.SAFETY_CONTOUR then
         if not feature.surroundingDepth or feature.surroundingDepth >= contextParameters.SAFETY_CONTOUR then
             -- DANGER = true

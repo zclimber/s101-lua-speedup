@@ -4,7 +4,8 @@
 require 'SAFCON01'
 
 -- Main entry point for CSP.
-function DEPCNT03(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DEPCNT03(feature, featurePortrayal, contextParameters)
     local function GenerateCurves()
         for curveAssociation in feature:GetFlattenedSpatialAssociations() do
             local spatialQuality = curveAssociation.Spatial:GetInformationAssociation('spatialQuality')
@@ -23,7 +24,7 @@ function DEPCNT03(feature, featurePortrayal, contextParameters)
         --TODO: Check display priority for contour labels
         local displayParameters = PortrayalModel.CreateDisplayParameters(33022)
 
-        local symbols = SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, feature.valueOfDepthContour or 0.0)
+        local symbols = Portrayals.SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, feature.valueOfDepthContour or 0.0)
         for i, symbol in ipairs(symbols) do
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol(symbol, 0.0, Graphics.CRSType.Portrayal, 1.0, Graphics.CreateVector(), Symbol.CreateLineSymbolPlacement()), nil, displayParameters)
         end

@@ -13,6 +13,7 @@ function portrayal_main(datasetID, start, step)
     UpdatePortrayalContextParameters(datasetID)
 
     local portrayalContext = portrayalContexts[datasetID]
+    local Portrayals = Portrayals
 
     if not portrayalContext then
         error('Host must call GetPortrayalContextParameters() before calling portrayal_main()')
@@ -76,7 +77,7 @@ function portrayal_main(datasetID, start, step)
                     --featurePortrayal.DisplayParameters.ScaleMaximum = feature['!scaleMaximum']
 
                     require(feature.Code)
-                    _G[feature.Code](feature, featurePortrayal, contextParameters)
+                    Portrayals[feature.Code](feature, featurePortrayal, contextParameters)
 
                     if #featurePortrayal.DrawingInstructions == 0 then
                         error('No drawing instructions were emitted for feature ' .. feature.ID)
@@ -91,7 +92,7 @@ function portrayal_main(datasetID, start, step)
                     -- Clear any drawing instructions created up to this point.
                     featurePortrayal = featurePortrayalItem:NewFeaturePortrayal()
 
-                    Default(feature, featurePortrayal, contextParameters)
+                    Portrayals.Default(feature, featurePortrayal, contextParameters)
                 end
 
                 featurePortrayalItem.ObservedContextParameters = contextParameters._observed

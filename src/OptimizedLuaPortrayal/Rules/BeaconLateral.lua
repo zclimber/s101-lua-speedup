@@ -4,7 +4,8 @@
 require 'TOPMAR01'
 
 -- Main entry point for feature type.
-function BeaconLateral(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.BeaconLateral(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.colour[1] == 3 and feature.colour[2] == 4 and feature.colour[3] == 3 and feature.beaconShape == 1 then
             featurePortrayal:SetDisplayParameters(27020, 8, nil, nil, 'OverRADAR')

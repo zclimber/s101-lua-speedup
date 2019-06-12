@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function SubmarinePipelineArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.SubmarinePipelineArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(34030, 4, nil, nil, 'OverRADAR')

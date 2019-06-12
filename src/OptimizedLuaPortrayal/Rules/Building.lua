@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Building(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Building(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature['function'][1] == 33 and feature.visuallyConspicuous and feature.featureName[1] and feature.featureName[1].name then
             featurePortrayal:SetDisplayParameters(22220, 6, nil, nil, 'OverRADAR')

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function FerryRoute(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.FerryRoute(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfFerry[1] == 1 then
             featurePortrayal:SetDisplayParameters(25030, 4, nil, nil, 'OverRADAR')

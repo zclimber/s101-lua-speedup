@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Dyke(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Dyke(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.radarConspicuous then
             featurePortrayal:SetDisplayParameters(22210, 4, nil, nil, 'OverRADAR')

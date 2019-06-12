@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function TrafficSeparationSchemeLanePart(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.TrafficSeparationSchemeLanePart(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')

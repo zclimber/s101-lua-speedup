@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Lake(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Lake(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface then
         -- Plain and symbolized boundaries use the same symbolization
         featurePortrayal:SetDisplayParameters(22010, 2, nil, nil, 'UnderRADAR')

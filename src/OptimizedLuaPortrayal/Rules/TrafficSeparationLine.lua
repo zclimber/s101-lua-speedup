@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function TrafficSeparationLine(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.TrafficSeparationLine(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:SetDisplayParameters(25010, 8, nil, nil, 'OverRADAR')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleSolid(1.92, 'TRFCF'))

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function CableSubmarine(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.CableSubmarine(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfCable == 6 then
             featurePortrayal:SetDisplayParameters(24010, 6, nil, nil, 'OverRADAR')

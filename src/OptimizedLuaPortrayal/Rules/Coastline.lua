@@ -4,7 +4,8 @@
 require 'QUAPOS01'
 
 -- Main entry point for feature type.
-function Coastline(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Coastline(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfCoastline == 6 then
             featurePortrayal:SetDisplayParameters(12410, 7, nil, nil, 'OverRADAR')
@@ -20,7 +21,7 @@ function Coastline(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CSTLN'))
         else
             featurePortrayal:SetDisplayParameters(12410, 7, nil, nil, 'OverRADAR')
-            QUAPOS01(feature, featurePortrayal, contextParameters)
+            Portrayals.QUAPOS01(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

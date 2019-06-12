@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function BuoyInstallation(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.BuoyInstallation(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         featurePortrayal:SetDisplayParameters(27010, 8, nil, nil, 'OverRADAR')
         featurePortrayal:AddPointInstruction('BOYMOR11')

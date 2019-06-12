@@ -4,7 +4,8 @@
 require 'LightFlareAndDescription'
 
 -- Main entry point for feature type.
-function LightAirObstruction(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.LightAirObstruction(feature, featurePortrayal, contextParameters)
     featurePortrayal:SetDisplayParameters(27070, 8, nil, nil, 'OverRADAR')
 
     LightFlareAndDescription(feature, featurePortrayal, contextParameters, 6)

@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Dam(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Dam(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfDam == 3 then
             featurePortrayal:SetDisplayParameters(22010, 4, nil, nil, 'OverRADAR')

@@ -1,8 +1,10 @@
+Portrayals = {}
+
 require('Interface')
 require('AttributeLookup')
+require('S100Scripting')
 require('PortrayalAPI')
 require('PortrayalModel')
-require('S100Scripting')
 require('main')
 
 require('AdministrationArea')

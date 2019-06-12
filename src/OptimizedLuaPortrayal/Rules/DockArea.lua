@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function DockArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.DockArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.condition then
             featurePortrayal:SetDisplayParameters(12420, 2, nil, nil, 'UnderRADAR')

@@ -4,7 +4,8 @@
 require 'RESARE04'
 
 -- Main entry point for feature type.
-function RestrictedArea(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RestrictedArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.categoryOfRestrictedArea[1] == 27 then
             featurePortrayal:SetDisplayParameters(26010, 5, nil, nil, 'UnderRADAR')

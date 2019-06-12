@@ -1,7 +1,8 @@
 -- Default portrayal rules file.  Called when rule file cannot be found.
 
 -- Main entry point for feature type.
-function Default(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Default(feature, featurePortrayal, contextParameters)
     if (feature.PrimitiveType == PrimitiveType.Point) then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(21010, 5, nil, nil, 'OverRADAR')

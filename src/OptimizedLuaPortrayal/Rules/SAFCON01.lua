@@ -1,7 +1,8 @@
 ﻿-- SAFCON01 conditional symbology rules file.
 
 -- Main entry point for CSP.
-function SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, depth, spatials)
+local Portrayals = Portrayals
+function Portrayals.SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, depth, spatials)
     local symbols = {}
 
     if depth < 0 or depth > 99999 then

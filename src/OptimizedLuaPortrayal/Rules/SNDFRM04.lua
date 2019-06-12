@@ -1,7 +1,8 @@
 ﻿-- SNDFRM04 conditional symbology rules file.
 
 -- Main entry point for CSP.
-function SNDFRM04(feature, featurePortrayal, contextParameters, soundingPoint, depthValue)
+local Portrayals = Portrayals
+function Portrayals.SNDFRM04(feature, featurePortrayal, contextParameters, soundingPoint, depthValue)
     local symbols = {}
 
     local function addSymbol(symbol)

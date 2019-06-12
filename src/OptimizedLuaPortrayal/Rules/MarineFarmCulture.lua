@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function MarineFarmCulture(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.MarineFarmCulture(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(26210, 4, nil, nil, 'OverRADAR')

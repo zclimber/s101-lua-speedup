@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function TrafficSeparationSchemeCrossing(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.TrafficSeparationSchemeCrossing(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface then
         -- Plain and symbolized boundaries use the same symbolization
         featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')

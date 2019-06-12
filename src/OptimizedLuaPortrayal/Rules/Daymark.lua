@@ -1,7 +1,8 @@
 -- Converter Version: 0.99.6275.24179
 
 -- Main entry point for feature type.
-function Daymark(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.Daymark(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.topmarkDaymarkShape == 19 then
             featurePortrayal:SetDisplayParameters(27025, 7, nil, nil, 'OverRADAR')

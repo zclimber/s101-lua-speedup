@@ -4,7 +4,8 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-function TrafficSeparationSchemeRoundabout(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.TrafficSeparationSchemeRoundabout(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')
         featurePortrayal:AddPointInstruction('TSSRON51')

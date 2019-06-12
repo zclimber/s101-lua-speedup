@@ -1,7 +1,8 @@
 -- RESARE04 conditional symbology rules file.
 
 -- Main entry point for CSP.
-function RESARE04(feature, featurePortrayal, contextParameters)
+local Portrayals = Portrayals
+function Portrayals.RESARE04(feature, featurePortrayal, contextParameters)
     local restriction = feature.restriction
     local categoryOfRestrictedArea = feature.categoryOfRestrictedArea
 
