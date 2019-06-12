@@ -3,6 +3,10 @@
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for BRIDGE.
 
 local Portrayals = Portrayals
+local Graphics = Graphics
+local PortrayalModel = PortrayalModel
+local Symbol = Symbol
+local AreaFills = AreaFills
 local LineStyles = LineStyles
 local Text = Text
 local PrimitiveType = PrimitiveType
