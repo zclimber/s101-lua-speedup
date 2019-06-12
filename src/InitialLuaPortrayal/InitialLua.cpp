@@ -524,7 +524,7 @@ int runInitialLua(TestObjectDrawer &testObjectDrawer, const std::string &prefix,
     runPortrayalMainTimes(L, std::max(2, warmup));
     timer t("Their lua");
     runPortrayalMainTimes(L, runs);
-    testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
+//    testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
     int time = t.stop();
 
     for (const auto &x : traces) {
