@@ -3,10 +3,14 @@ require 'PortrayalModel'
 require 'PortrayalAPI'
 require 'Default'
 
+local ffi = require('ffi')
+
 -- Main entry point for portrayal
 function portrayal_main(datasetID, start, step)
     start = start or 1
     step = step or 1
+
+    UpdatePortrayalContextParameters(datasetID)
 
     local portrayalContext = portrayalContexts[datasetID]
 
@@ -69,7 +73,7 @@ function portrayal_main(datasetID, start, step)
 
                 local status, err = pcall(function()
                     featurePortrayal.DisplayParameters.ScaleMinimum = feature['!scaleMinimum']
-                    featurePortrayal.DisplayParameters.ScaleMaximum = feature['!scaleMaximum']
+                    --featurePortrayal.DisplayParameters.ScaleMaximum = feature['!scaleMaximum']
 
                     require(feature.Code)
                     _G[feature.Code](feature, featurePortrayal, contextParameters)
@@ -93,8 +97,21 @@ function portrayal_main(datasetID, start, step)
                 featurePortrayalItem.ObservedContextParameters = contextParameters._observed
                 featurePortrayalItem.InUseContextParameters = contextParameters._asTable
 
-                if not Host_FeaturePortrayal_Emit(featurePortrayal) then
-                    break
+                local cDrawingInstructionsCount = #(featurePortrayal.DrawingInstructions)
+
+                local cDrawingInstructions
+
+                status, err = pcall(function()
+                    cDrawingInstructions = ffi.new('struct DrawingInstruction[?]',
+                            cDrawingInstructionsCount, featurePortrayal.DrawingInstructions)
+                end)
+
+                if not status then
+                    print(err)
+                else
+                    if not ffi.C.LuaHost_display(feature.ID, cDrawingInstructions, cDrawingInstructionsCount) then
+                        break
+                    end
                 end
             else
                 cachedFeatures = cachedFeatures + 1

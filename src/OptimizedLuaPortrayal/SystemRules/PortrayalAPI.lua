@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 This file contains the global functions that define the Lua portrayal API.
 These functions are called by the host program.
 --]]
@@ -17,12 +17,23 @@ function InitializePortrayalContext(datasetID)
     portrayalContexts[datasetID] = portrayalContext
 end
 
-function GetPortrayalContextParameters(datasetID)
+function UpdatePortrayalContextParameters(datasetID)
     if not portrayalContexts[datasetID] then
         InitializePortrayalContext(datasetID)
     end
 
-    return portrayalContexts[datasetID].ContextParameters
+    local ffi = require('ffi')
+    local context = portrayalContexts[datasetID].ContextParameters
+    local cContext = ffi.new("struct CContext", context)
+
+    ffi.C.LuaHost_getDatasetContext(cContext)
+
+    for k in pairs(context._asTable) do
+        pcall(function()
+            context[k] = cContext[k]
+        end)
+    end
+    --context:SetNewParameters(cContext)
 end
 
 -- Called by host to free up memory if it's determined a dataset may not be needed immediately.
@@ -32,90 +43,7 @@ end
 
 local nilAttribute = {}
 
-local function LookupAttributeValue(t, k, HostGetAttribute)
-    local attributeMetatable = {
-        __index = function(t, k)
-            return LookupAttributeValue(t, k, HostGetAttribute)
-        end
-    }
-
-    local k1 = k
-
-    local nilIfMissing = false
-
-    -- Is this a "nil if missing" attribute?
-    if k:sub(1, 1) == '!' then
-        nilIfMissing = true
-
-        k = k:sub(2)
-    end
-
-    -- Is this an enum string attribute?
-    if k:sub(1, 1) == '$' then
-        k = k:sub(2)
-    end
-
-    local codeIndexPairs = {}
-
-    local t1 = t
-
-    while rawget(t1, 'Parent') do
-        table.insert(codeIndexPairs, 1, t1.Index)
-        table.insert(codeIndexPairs, 1, t1.AttributeCode)
-
-        t1 = rawget(t1, 'Parent')
-    end
-
-    local isComplex, r1, r2 = HostGetAttribute(t.ID, k, codeIndexPairs)
-
-    if isComplex == nil then
-        if not nilIfMissing then
-            local errorCode = r1
-
-            if errorCode == 1 then
-                error('Attribute "' .. k .. '" not found in feature catalogue.')
-            elseif errorCode == 2 then
-                error('Attribute "' .. k .. '" not valid for feature "' .. t.Code .. '"')
-            else
-                error('Unknown error code ' .. errorCode .. ' returned from Host_..._GetAttribute')
-            end
-        end
-    elseif isComplex then
-        local count = r1
-        local isArray = r2
-
-        if isArray then
-            local values = {}
-
-            for i = 1, count do
-                local value = { Type = 'ComplexAttribute', Parent = t, ID = t.ID, AttributeCode = k, Index = i }
-
-                setmetatable(value, attributeMetatable)
-
-                values[#values + 1] = value
-            end
-
-            t[k] = values
-        else
-            if count ~= 0 then
-                local value = { Type = 'ComplexAttribute', Parent = t, ID = t.ID, AttributeCode = k, Index = 1 }
-
-                setmetatable(value, attributeMetatable)
-
-                t[k] = value
-            end
-        end
-    else
-        local value = r1
-        local stringValue = r2
-
-        t[k] = value
-        t['!' .. k] = value
-        t['$' .. k] = stringValue
-    end
-
-    return rawget(t, k1)
-end
+local LookupAttributeValue = require('AttributeLookup')
 
 PrimitiveType = {
     None = { Type = 'PrimitiveType', Value = 0, Name = 'None' },
@@ -188,7 +116,7 @@ function CreateFeature(featureID, featureCode)
             elseif k == 'SpatialAssociations' then
                 return t:GetSpatialAssociations()
             else
-                local av = LookupAttributeValue(t, k, Host_Feature_GetAttribute)
+                local av = LookupAttributeValue(t, k)
 
                 if av ~= nil then
                     return av
@@ -276,7 +204,7 @@ function CreateFeature(featureID, featureCode)
     -- associated to the feature.  Surface and composite curves return only their ultimate simple curves.
     -- This only works for features with a single spatial association.
     function feature:GetFlattenedSpatialAssociations()
-        local spatialType = self:GetSpatial().SpatialType
+        local spatialType = self:GetSpatialAssociation().SpatialType
 
         if contains(spatialType, { SpatialType.Point, SpatialType.MultiPoint, SpatialType.Curve }) then
             local first = true
@@ -292,7 +220,7 @@ function CreateFeature(featureID, featureCode)
             return function()
                 if first then
                     first = false
-                    return dummySpatialReference
+                    return dummySpatialAssociation
                 end
             end
             --local i = 0
@@ -306,7 +234,7 @@ function CreateFeature(featureID, featureCode)
             return function()
                 if first then
                     first = false
-                    return dummySpatialReference
+                    return dummySpatialAssociation
                 end
             end
             ---- Do this the hard way since coroutines don't play nice with C callbacks.
@@ -537,10 +465,12 @@ function CreateSurface(exteriorRing, interiorRings)
 end
 
 dummySpatialAssociation = CreateSpatialAssociation(SpatialType.Curve, -1, Orientation.Forward)
-dummySpatialAssociation.Spatial = CreateSpatial(SpatialType.Curve)
-function dummySpatialAssociation:GetInformationAssociation()
+dummySpatialAssociation.Spatial = CreateSpatial(SpatialType.Curve, -1)
+function dummySpatialAssociation.Spatial:GetInformationAssociation()
     return nil
 end
-function dummySpatialAssociation:GetInformationAssociations()
+function dummySpatialAssociation.Spatial:GetInformationAssociations()
     return {}
 end
+
+dummySpat = dummySpatialAssociation.Spatial

@@ -10,6 +10,8 @@ PortrayalModel = {
     Type = 'PortrayalModel'
 }
 
+local ffi = require('ffi')
+
 function PortrayalModel.CreatePortrayalContext(datasetID)
     CheckNotSelf(datasetID, PortrayalModel.Type)
 
@@ -20,9 +22,30 @@ function PortrayalModel.CreatePortrayalContext(datasetID)
         FeaturePortrayalItems = CreateFeaturePortrayalItemArray()
     }
 
-    local features = Host_Dataset_GetFeatures(datasetID)
+    local featureCount = ffi.C.LuaHost_getDatasetSize(datasetID)
+    local featureArray = ffi.new('struct CFeature[?]', featureCount)
+    ffi.C.LuaHost_getDatasetContents(datasetID, featureArray, featureCount)
 
-    for _, feature in ipairs(features) do
+    local orients = { Orientation.Forward, Orientation.Reverse }
+    local SP = SpatialType
+    local dummySpat = dummySpat
+
+    local spats = { [110] = SP.Point, [120] = SP.Curve, [125] = SP.CompositeCurve, [130] = SP.Surface }
+
+    for i = 0, featureCount - 1 do
+        local clazz = ffi.string(featureArray[i].clazz)
+        local primitive = ffi.string(featureArray[i].primitive)
+        local feature = CreateFeature(featureArray[i].id, clazz, primitive, featureArray[i].attr_node_ptr,
+                featureArray[i].SpatialAssociation)
+        feature.PrimitiveType = PrimitiveType[primitive]
+        feature.attr_node_ptr = featureArray[i].attr_node_ptr
+        local assocC = featureArray[i].SpatialAssociation
+
+        local assoc = CreateSpatialAssociation(
+                spats[assocC.SpatialType], assocC.SpatialID, orients[assocC.Orientation])
+        assoc.Spatial = dummySpat
+
+        feature.SpatialAssociations = { assoc }
         portrayalContext.FeaturePortrayalItems:AddFeature(feature)
     end
 
@@ -520,10 +543,10 @@ end
 Graphics = {
     Type = "Graphics",
     CRSType = {
-        Geographic = { Type = 'CRSType', Value = 1, Name = 'Geographic' },
-        Portrayal = { Type = 'CRSType', Value = 2, Name = 'Portrayal' },
-        Local = { Type = 'CRSType', Value = 3, Name = 'Local' },
-        Line = { Type = 'CRSType', Value = 4, Name = 'Line' }
+        Geographic = { Type = 'CRSType', Value = 1, Name = 'GeographicCRS' },
+        Portrayal = { Type = 'CRSType', Value = 2, Name = 'PortrayalCRS' },
+        Local = { Type = 'CRSType', Value = 3, Name = 'LocalCRS' },
+        Line = { Type = 'CRSType', Value = 4, Name = 'LineCRS' }
     }
 }
 
@@ -954,7 +977,7 @@ Text = {
     VerticalAlignment = {
         Top = { Type = 'VerticalAlignment', Value = 1, Name = 'Top' },
         Bottom = { Type = 'VerticalAlignment', Value = 2, Name = 'Bottom' },
-        Center = { Type = 'VerticalAlignment', Value = 3, Name = 'Center' }
+        Center = { Type = 'VerticalAlignment', Value = 3, Name = 'CenterV' }
     }
 }
 

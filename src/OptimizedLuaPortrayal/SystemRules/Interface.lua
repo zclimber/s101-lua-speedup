@@ -87,6 +87,10 @@ enum CRSTypeEnum {
     GeographicCRS, PortrayalCRS, LocalCRS, LineCRS
 };
 
+struct CRSTypeStruct {
+    enum CRSTypeEnum Name;
+};
+
 enum AreaPlacementModeEnum {
     VisibleParts, Geographic
 };
@@ -118,7 +122,7 @@ struct VerticalAlignmentMode {
 struct Symbol_ {
     const char *Reference;
     double Rotation;
-    enum CRSTypeEnum RotationCRS;
+    struct CRSTypeStruct RotationCRS;
     double ScaleFactor;
     struct PointVector Offset;
     enum AreaPlacementModeEnum PlacementMode;
@@ -190,19 +194,29 @@ struct DashType {
 struct LineSymbolType{
     const char * Reference;
     double Rotation, ScaleFactor;
-    enum CRSTypeEnum CRSType;
+    struct CRSTypeStruct CRSType;
+};
+
+enum CapStyleType {
+    Butt, Square, Round
+} CapStyle;
+struct CapStyleStruct{
+	enum CapStyleType Name;
+};
+
+enum JoinStyleType {
+	Bevel, Miter, RoundJ
+} JoinStyle;
+struct JoinStyleStruct {
+	enum JoinStyleType Name;
 };
 
 struct LineStyleType {
     enum LineStyleTypeEnum {
         LineStyleReference, LineStyle
     } Type;
-    enum CapStyleType {
-        Butt, Square, Round
-    } CapStyle;
-    enum JoinStyleType {
-        Bevel, Miter, RoundJ
-    } JoinStyle;
+    struct CapStyleStruct CapStyle;
+    struct JoinStyleStruct JoinStyle;
     const char *Reference;
     double IntervalLength, Offset;
     struct DashType Dashes[10];
