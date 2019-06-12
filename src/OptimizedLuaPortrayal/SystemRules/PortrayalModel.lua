@@ -11,6 +11,7 @@ PortrayalModel = {
 }
 
 local ffi = require('ffi')
+local ClassNames = require('ClassCodes')
 
 function PortrayalModel.CreatePortrayalContext(datasetID)
     CheckNotSelf(datasetID, PortrayalModel.Type)
@@ -36,12 +37,14 @@ function PortrayalModel.CreatePortrayalContext(datasetID)
     local PrimitiveType = PrimitiveType
     local CreateSpatialAssociation = CreateSpatialAssociation
 
+    local names = ClassNames
+
     for i = 0, featureCount - 1 do
-        local clazz = ffi.string(featureArray[i].clazz)
-        local primitive = ffi.string(featureArray[i].primitive)
+        local clazz = names[featureArray[i].clazz]
+        local primitive = PrimitiveType[featureArray[i].primitive]
         local feature = CreateFeature(featureArray[i].id, clazz, primitive, featureArray[i].attr_node_ptr,
                 featureArray[i].SpatialAssociation)
-        feature.PrimitiveType = PrimitiveType[primitive]
+        feature.PrimitiveType = primitive
         feature.attr_node_ptr = featureArray[i].attr_node_ptr
         local assocC = featureArray[i].SpatialAssociation
 

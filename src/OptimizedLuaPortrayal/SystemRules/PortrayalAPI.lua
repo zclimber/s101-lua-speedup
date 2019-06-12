@@ -40,6 +40,11 @@ local nilAttribute = {}
 local LookupAttributeValue = require('AttributeLookup')
 
 PrimitiveType = {
+    [-100] = 'None',
+    'Point',
+    'MultiPoint',
+    'Curve',
+    'Surface',
     None = 'None',
     Point = 'Point',
     MultiPoint = 'MultiPoint',
@@ -48,6 +53,11 @@ PrimitiveType = {
 }
 
 SpatialType = {
+    [110] = 'Point',
+    [115] = 'MultiPoint',
+    [120] = 'Curve',
+    [125] = 'CompositeCurve',
+    [130] = 'Surface',
     Point = 'Point',
     MultiPoint = 'MultiPoint',
     Curve = 'Curve',

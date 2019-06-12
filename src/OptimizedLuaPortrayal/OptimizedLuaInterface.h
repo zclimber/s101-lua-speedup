@@ -40,8 +40,8 @@ struct CSpatial {
 struct CFeature {
     int id;
     struct SpatialReference SpatialAssociation;
-    const char *clazz;
-    const char *primitive;
+    int clazz;
+    int primitive;
     void *attr_node_ptr;
 };
 

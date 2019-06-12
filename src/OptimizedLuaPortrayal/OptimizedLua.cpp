@@ -39,8 +39,8 @@ S101RULES_API void LuaHost_getDatasetContents(const char *dataset_name, CFeature
         const IFeature &feature = pDrawer->GetFeature(id);
         data[i].id = id;
         data[i].SpatialAssociation = feature.GetSpatialId();
-        data[i].clazz = feats_by_id.find(feature.GetClass())->second.name.c_str();
-        data[i].primitive = feature.GetPermittedPrimitives();
+        data[i].clazz = feature.GetClass();
+        data[i].primitive = feature.GetSpatialId().PrimitiveNumber();
         data[i].attr_node_ptr = toVoid(&feature);
     }
 }
