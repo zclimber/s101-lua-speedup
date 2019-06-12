@@ -4,14 +4,9 @@
 require 'RESTRN01'
 
 -- Main entry point for feature type.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.SubmarineTransitLane(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(26040, 4, nil, nil, 'UnderRADAR')

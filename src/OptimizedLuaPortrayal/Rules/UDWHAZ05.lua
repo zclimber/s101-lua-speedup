@@ -1,14 +1,9 @@
 ﻿-- UDWHAZ05 conditional symbology rules file.
 
 -- Main entry point for CSP.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
     if DEPTH_VALUE <= contextParameters.SAFETY_CONTOUR then
         if not feature.surroundingDepth or feature.surroundingDepth >= contextParameters.SAFETY_CONTOUR then

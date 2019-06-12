@@ -1,14 +1,9 @@
 ﻿-- SEABED01 conditional symbology rules file.
 
 -- Main entry point for CSP.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.SEABED01(feature, featurePortrayal, contextParameters, depthRangeMinimumValue, depthRangeMaximumValue)
     local Colour = 'DEPIT'
     local Shallow = true

@@ -3,14 +3,9 @@
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for M_NSYS.
 
 -- Main entry point for feature type.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.LocalDirectionOfBuoyage(feature, featurePortrayal, contextParameters)
     -- TODO: Use any overlapping NavigationalSystemOfMarks.marksNavigationalSystemOf.  See S-52 lookup tables below.
     featurePortrayal:SetDisplayParameters(27040, 4, nil, nil, 'UnderRADAR')

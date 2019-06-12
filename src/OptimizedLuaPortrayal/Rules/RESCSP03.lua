@@ -1,14 +1,9 @@
 ﻿-- RESCSP03 conditional symbology rules file.
 
 -- Main entry point for CSP.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.RESCSP03(feature, featurePortrayal, contextParameters)
     local restriction = feature.restriction
 

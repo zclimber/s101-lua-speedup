@@ -60,7 +60,7 @@ function portrayal_main(datasetID, start, step)
     local cachedFeatures = 0
 
     for i = start, #featurePortrayalItems, step do
-        featurePortrayalItem = featurePortrayalItems[i]
+        local featurePortrayalItem = featurePortrayalItems[i]
 
         local feature = featurePortrayalItem.Feature
 

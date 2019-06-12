@@ -4,14 +4,9 @@
 require 'TOPMAR01'
 
 -- Main entry point for feature type.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.BuoySpecialPurposeGeneral(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfSpecialPurposeMark[1] == 19 and feature.buoyShape == 1 then

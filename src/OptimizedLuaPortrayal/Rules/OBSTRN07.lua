@@ -6,14 +6,9 @@ require 'UDWHAZ05'
 require 'SNDFRM04'
 
 -- Main entry point for CSP.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
     local DEPTH_VALUE = feature.valueOfSounding or feature.defaultClearanceDepth
 

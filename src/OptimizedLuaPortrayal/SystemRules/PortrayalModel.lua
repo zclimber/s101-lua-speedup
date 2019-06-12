@@ -32,6 +32,10 @@ function PortrayalModel.CreatePortrayalContext(datasetID)
 
     local spats = { [110] = SP.Point, [120] = SP.Curve, [125] = SP.CompositeCurve, [130] = SP.Surface }
 
+    local CreateFeature = CreateFeature
+    local PrimitiveType = PrimitiveType
+    local CreateSpatialAssociation = CreateSpatialAssociation
+
     for i = 0, featureCount - 1 do
         local clazz = ffi.string(featureArray[i].clazz)
         local primitive = ffi.string(featureArray[i].primitive)

@@ -6,14 +6,9 @@ require 'SAFCON01'
 require 'SEABED01'
 
 -- Main entry point for CSP.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
     local depthRangeMinimumValue = feature.depthRangeMinimumValue or -1.0
     local depthRangeMaximumValue = feature.depthRangeMaximumValue or depthRangeMinimumValue + 0.01
@@ -121,7 +116,7 @@ function Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
     --			local symbols = Portrayals.SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, loc_valdco, curveAssociation)
     --
     --			for _, symbolName in ipairs(symbols) do
-    --				local symbol = Symbol.CreateSymbol(symbolName, nil, nil, nil, nil, Symbol.CreateLineSymbolPlacement())
+    --				.CreateSymbol(symbolName, nil, nil, nil, nil, Symbol.CreateLineSymbolPlacement())
     --				featurePortrayal:AddPointInstruction(symbol, curveAssociation, displayParameters)
     --			end
     --		end

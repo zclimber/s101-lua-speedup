@@ -3,14 +3,9 @@
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for OBSTRN where CATOBS = 7.
 
 -- Main entry point for feature type.
-local Portrayals = Portrayals
-local Graphics = Graphics
-local PortrayalModel = PortrayalModel
-local Symbol = Symbol
-local AreaFills = AreaFills
-local LineStyles = LineStyles
-local Text = Text
-local PrimitiveType = PrimitiveType
+
+
+
 function Portrayals.FoulGround(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         if feature.valueOfSounding then
