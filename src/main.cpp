@@ -6,7 +6,7 @@
 #include "XmlLoader.h"
 #include "S100RulesParser/ChooseRule.h"
 #include "InitialLuaPortrayal/InitialLua.h"
-//#include "ModLua/ModLua.h"
+#include "OptimizedLuaPortrayal/OptimizedLua.h"
 #include "ConvertedLuaPortrayal/ConvertedLua.h"
 #include "GeneratedLists.h"
 
@@ -83,8 +83,8 @@ int main() {
 //    return 0;
     std::vector<int> testFeatures;// = getGeneratedLists().featuresList;
 
-//    const int countRuns = 1;
-    const int countRuns = 250;
+    const int countRuns = 1;
+//    const int countRuns = 250;
     const int warmupRuns = std::min(500, countRuns / 5);
 
 //    printCatalogueStuff(drawer);
@@ -110,15 +110,15 @@ int main() {
         if (i >= warmupRuns)
             cpp += rs;
     }
-    th = runInitialLua(drawer, "out\\thlua\\", warmupRuns, countRuns, testFeatures);
+//    th = runInitialLua(drawer, "out\\thlua\\", warmupRuns, countRuns, testFeatures);
     std::cerr.flush();
     std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
     std::cerr.flush();
 
-//    opt = runModifiedLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
-//    std::cerr.flush();
-//    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
-//    std::cerr.flush();
+    opt = runModifiedLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
+    std::cerr.flush();
+    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
+    std::cerr.flush();
 //
     conv = runMyLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
     std::cerr.flush();

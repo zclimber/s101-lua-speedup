@@ -1,0 +1,16 @@
+-- Converter Version: 0.99.6275.24179
+
+-- Main entry point for feature type.
+function RadarReflector(feature, featurePortrayal, contextParameters)
+    if feature.PrimitiveType == PrimitiveType.Point then
+        -- Simplified and paper chart points use the same symbolization
+        featurePortrayal:SetDisplayParameters(27230, 6, nil, nil, 'OverRADAR')
+        featurePortrayal:AddPointInstruction('RADRFL03')
+    else
+        error('Invalid primitive type or mariner settings passed to portrayal')
+    end
+
+    if #featurePortrayal.DrawingInstructions == 0 then
+        featurePortrayal:AddNullInstruction()
+    end
+end
