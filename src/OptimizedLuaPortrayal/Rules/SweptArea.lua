@@ -2,6 +2,9 @@
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.SweptArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         featurePortrayal:SetDisplayParameters(23030, 4, nil, nil, 'UnderRADAR')

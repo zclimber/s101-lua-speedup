@@ -5,6 +5,9 @@ require 'SAFCON01'
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.DEPCNT03(feature, featurePortrayal, contextParameters)
     local function GenerateCurves()
         for curveAssociation in feature:GetFlattenedSpatialAssociations() do

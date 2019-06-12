@@ -5,6 +5,9 @@ require 'LITDSN02'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.LightFlareAndDescription(feature, featurePortrayal, contextParameters, categoryOfLight)
     if feature.PrimitiveType ~= PrimitiveType.Point then
         error(feature.Code .. ' must be of spatial type point')

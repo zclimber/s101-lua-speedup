@@ -5,6 +5,9 @@ require 'QUAPOS01'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.LandArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
@@ -13,10 +16,10 @@ function Portrayals.LandArea(feature, featurePortrayal, contextParameters)
         if feature.featureName[1] and feature.featureName[1].name then
             featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(feature.featureName[1]['$name'], defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(0, -3.51), nil, nil, Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center), nil, PortrayalModel.CreateDisplayParameters(26, 8))
         end
-        QUAPOS01(feature, featurePortrayal, contextParameters)
+        Portrayals.QUAPOS01(feature, featurePortrayal, contextParameters)
     elseif feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:SetDisplayParameters(12010, 8, nil, nil, 'OverRADAR')
-        QUAPOS01(feature, featurePortrayal, contextParameters)
+        Portrayals.QUAPOS01(feature, featurePortrayal, contextParameters)
         if feature.featureName[1] and feature.featureName[1].name then
             featurePortrayal:AddTextInstruction(Text.CreateTextLine(Text.CreateTextElement(feature.featureName[1]['$name'], defaultFontCharacteristics, 10, 'CHBLK'), 0.5, nil, Symbol.LinePlacementMode.Relative, Text.HorizontalAlignment.Center, Text.VerticalAlignment.Bottom), nil, PortrayalModel.CreateDisplayParameters(26, 8))
         end

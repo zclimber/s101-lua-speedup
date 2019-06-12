@@ -2,6 +2,9 @@
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.TwoWayRoutePart(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.orientation and feature.orientation.orientationValue and feature.trafficFlow == 1 then

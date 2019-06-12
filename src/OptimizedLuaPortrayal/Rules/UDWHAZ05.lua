@@ -2,6 +2,9 @@
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)
     if DEPTH_VALUE <= contextParameters.SAFETY_CONTOUR then
         if not feature.surroundingDepth or feature.surroundingDepth >= contextParameters.SAFETY_CONTOUR then

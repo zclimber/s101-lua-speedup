@@ -2,6 +2,9 @@
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.ProductionStorageArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfProductionArea == 5 and feature.visuallyConspicuous then

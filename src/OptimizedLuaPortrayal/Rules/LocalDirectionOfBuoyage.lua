@@ -4,6 +4,9 @@
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.LocalDirectionOfBuoyage(feature, featurePortrayal, contextParameters)
     -- TODO: Use any overlapping NavigationalSystemOfMarks.marksNavigationalSystemOf.  See S-52 lookup tables below.
     featurePortrayal:SetDisplayParameters(27040, 4, nil, nil, 'UnderRADAR')

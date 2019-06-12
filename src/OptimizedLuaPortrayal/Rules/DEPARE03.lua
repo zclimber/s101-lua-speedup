@@ -7,6 +7,9 @@ require 'SEABED01'
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
     local depthRangeMinimumValue = feature.depthRangeMinimumValue or -1.0
     local depthRangeMaximumValue = feature.depthRangeMaximumValue or depthRangeMinimumValue + 0.01
@@ -111,7 +114,7 @@ function Portrayals.DEPARE03(feature, featurePortrayal, contextParameters)
     --		if loc_valdco ~= unknownValue then
     --			displayParameters = PortrayalModel.CreateDisplayParameters(33021, 8, nil, nil, 'OverRADAR')
     --
-    --			local symbols = SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, loc_valdco, curveAssociation)
+    --			local symbols = Portrayals.SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, loc_valdco, curveAssociation)
     --
     --			for _, symbolName in ipairs(symbols) do
     --				local symbol = Symbol.CreateSymbol(symbolName, nil, nil, nil, nil, Symbol.CreateLineSymbolPlacement())

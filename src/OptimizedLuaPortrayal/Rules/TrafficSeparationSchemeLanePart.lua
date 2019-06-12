@@ -5,27 +5,30 @@ require 'RESTRN01'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.TrafficSeparationSchemeLanePart(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('TSSLPT51', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         else
             featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('CTNARE51')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('TSSLPT51', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         else
             featurePortrayal:SetDisplayParameters(25010, 6, nil, nil, 'UnderRADAR')
             featurePortrayal:AddAreaInstruction('TSSJCT02')
             featurePortrayal:AddPointInstruction('CTNARE51')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

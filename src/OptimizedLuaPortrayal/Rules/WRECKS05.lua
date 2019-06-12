@@ -7,6 +7,9 @@ require 'UDWHAZ05'
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.WRECKS05(feature, featurePortrayal, contextParameters)
     local DEPTH_VALUE = feature.valueOfSounding or feature.defaultClearanceDepth
 

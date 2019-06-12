@@ -5,6 +5,9 @@ require 'RESTRN01'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.AnchorageArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
@@ -21,7 +24,7 @@ function Portrayals.AnchorageArea(feature, featurePortrayal, contextParameters)
                 featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(feature.featureName[1]['$name'], defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(-3.51, 7.02), nil, nil, Text.HorizontalAlignment.End, Text.VerticalAlignment.Bottom), nil, PortrayalModel.CreateDisplayParameters(26, 8))
             end
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHMGF'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         else
             featurePortrayal:SetDisplayParameters(26220, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('ACHARE51')
@@ -29,7 +32,7 @@ function Portrayals.AnchorageArea(feature, featurePortrayal, contextParameters)
                 featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(feature.featureName[1]['$name'], defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(-3.51, -7.02), nil, nil, Text.HorizontalAlignment.End, Text.VerticalAlignment.Bottom), nil, PortrayalModel.CreateDisplayParameters(26, 8))
             end
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHMGF'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.categoryOfAnchorage[1] == 8 then
@@ -39,7 +42,7 @@ function Portrayals.AnchorageArea(feature, featurePortrayal, contextParameters)
                 featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(feature.featureName[1]['$name'], defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(-3.51, 7.02)), nil, PortrayalModel.CreateDisplayParameters(26, 8))
             end
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHMGF'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         else
             featurePortrayal:SetDisplayParameters(26220, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('ACHARE51')
@@ -47,7 +50,7 @@ function Portrayals.AnchorageArea(feature, featurePortrayal, contextParameters)
                 featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(feature.featureName[1]['$name'], defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(-3.51, 7.02)), nil, PortrayalModel.CreateDisplayParameters(26, 8))
             end
             featurePortrayal:AddLineInstruction('ACHARE51')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

@@ -1,5 +1,8 @@
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.SeabedArea(feature, featurePortrayal, contextParameters)
     local function AddNatureOfSurfaceText()
         local natureOfSurfaceAbbrev = {

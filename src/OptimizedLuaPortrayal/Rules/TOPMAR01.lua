@@ -74,6 +74,9 @@ local rigidTopmarks = {
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.TOPMAR01(feature, featurePortrayal, contextParameters, isFloating)
     local topmarkSymbol = 'QUESMRK1'
 

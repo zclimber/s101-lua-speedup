@@ -5,9 +5,12 @@ require 'QUAPNT02'
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.SLCONS04(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
-        local symbol = QUAPNT02(feature, featurePortrayal, contextParameters)
+        local symbol = Portrayals.QUAPNT02(feature, featurePortrayal, contextParameters)
 
         if symbol then
             featurePortrayal:AddPointInstruction(symbol, nil, PortrayalModel.CreateDisplayParameters(31011))

@@ -60,6 +60,9 @@ local statuses = {
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.LITDSN02(categoryOfLight, rhythmOfLight, lightColour, height, valueOfNominalRange, status)
     local description = categoryOfLights[categoryOfLight] or ''
 

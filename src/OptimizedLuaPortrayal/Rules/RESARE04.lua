@@ -2,6 +2,9 @@
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.RESARE04(feature, featurePortrayal, contextParameters)
     local restriction = feature.restriction
     local categoryOfRestrictedArea = feature.categoryOfRestrictedArea

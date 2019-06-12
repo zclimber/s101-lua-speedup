@@ -7,6 +7,9 @@ require 'SNDFRM04'
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
     local DEPTH_VALUE = feature.valueOfSounding or feature.defaultClearanceDepth
 
@@ -85,7 +88,7 @@ function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
             end
 
             if sounding then
-                local symbols = SNDFRM04(feature, featurePortrayal, contextParameters, feature.Point, valueOfSounding)
+                local symbols = Portrayals.SNDFRM04(feature, featurePortrayal, contextParameters, feature.Point, valueOfSounding)
 
                 for _, symbol in ipairs(symbols) do
                     featurePortrayal:AddPointInstruction(symbol)
@@ -122,7 +125,7 @@ function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
         end
 
         if valueOfSounding then
-            local symbols = SNDFRM04(feature, featurePortrayal, contextParameters, CreatePoint(0, 0), valueOfSounding)
+            local symbols = Portrayals.SNDFRM04(feature, featurePortrayal, contextParameters, CreatePoint(0, 0), valueOfSounding)
 
             for _, symbol in ipairs(symbols) do
                 local symbolPlacement = Symbol.CreateSymbol(symbol, nil, nil, nil, nil, Symbol.CreateLineSymbolPlacement())
@@ -143,7 +146,7 @@ function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
                 featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHBLK'))
             end
 
-            local symbols = SNDFRM04(feature, featurePortrayal, contextParameters, CreatePoint(0, 0), valueOfSounding)
+            local symbols = Portrayals.SNDFRM04(feature, featurePortrayal, contextParameters, CreatePoint(0, 0), valueOfSounding)
 
             for _, symbol in ipairs(symbols) do
                 featurePortrayal:AddPointInstruction(symbol)
@@ -164,7 +167,7 @@ function Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
             end
         end
 
-        local qualitySymbol = QUAPNT02(feature, featurePortrayal, contextParameters)
+        local qualitySymbol = Portrayals.QUAPNT02(feature, featurePortrayal, contextParameters)
 
         if qualitySymbol then
             featurePortrayal:AddPointInstruction(qualitySymbol, nil, PortrayalModel.CreateDisplayParameters(31011))

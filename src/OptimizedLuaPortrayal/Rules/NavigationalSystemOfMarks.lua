@@ -4,6 +4,9 @@
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.NavigationalSystemOfMarks(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType ~= PrimitiveType.Surface then
         error('Invalid primitive type or mariner settings passed to portrayal')

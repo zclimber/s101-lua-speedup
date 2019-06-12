@@ -2,6 +2,9 @@
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.QUAPNT02(feature, featurePortrayal, contextParameters)
     for spatialAssociation in feature:GetFlattenedSpatialAssociations() do
         local spatialQuality = spatialAssociation.Spatial:GetInformationAssociation('spatialQuality')

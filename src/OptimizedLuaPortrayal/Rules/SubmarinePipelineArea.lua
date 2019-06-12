@@ -5,6 +5,9 @@ require 'RESTRN01'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.SubmarinePipelineArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
@@ -15,44 +18,44 @@ function Portrayals.SubmarinePipelineArea(feature, featurePortrayal, contextPara
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHGRD'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         elseif feature.categoryOfPipelinePipe[1] == 3 then
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHGRD'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         elseif feature.product[1] == 3 then
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHGRD'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         else
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'CHMGD'))
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.categoryOfPipelinePipe[1] == 2 then
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction('PIPARE61')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         elseif feature.categoryOfPipelinePipe[1] == 3 then
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction('PIPARE61')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         elseif feature.product[1] == 3 then
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction('PIPARE61')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         else
             featurePortrayal:SetDisplayParameters(34030, 3, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('INFARE51')
             featurePortrayal:AddLineInstruction('PIPARE51')
-            RESTRN01(feature, featurePortrayal, contextParameters)
+            Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

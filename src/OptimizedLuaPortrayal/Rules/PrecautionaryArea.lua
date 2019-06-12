@@ -5,6 +5,9 @@ require 'RESTRN01'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.PrecautionaryArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
@@ -14,13 +17,13 @@ function Portrayals.PrecautionaryArea(feature, featurePortrayal, contextParamete
         featurePortrayal:SetDisplayParameters(25010, 4, nil, nil, 'UnderRADAR')
         featurePortrayal:AddPointInstruction('PRCARE51')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.64, 'TRFCD'))
-        RESTRN01(feature, featurePortrayal, contextParameters)
+        Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         featurePortrayal:SetDisplayParameters(25010, 4, nil, nil, 'UnderRADAR')
         featurePortrayal:AddAreaInstruction('TSSJCT02')
         featurePortrayal:AddPointInstruction('PRCARE51')
         featurePortrayal:AddLineInstruction('PRCARE51')
-        RESTRN01(feature, featurePortrayal, contextParameters)
+        Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
     else
         error('Invalid primitive type or mariner settings passed to portrayal')
     end

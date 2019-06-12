@@ -5,6 +5,9 @@ require 'RESCSP03'
 
 -- Main entry point for CSP.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.RESTRN01(feature, featurePortrayal, contextParameters)
     if feature.restriction then
         Portrayals.RESCSP03(feature, featurePortrayal, contextParameters)

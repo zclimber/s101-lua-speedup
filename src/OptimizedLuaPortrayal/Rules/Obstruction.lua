@@ -5,6 +5,9 @@ require 'OBSTRN07'
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point and contextParameters.SIMPLIFIED_POINTS then
         if feature.categoryOfObstruction == 7 and feature.valueOfSounding then
@@ -36,7 +39,7 @@ function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddPointInstruction('FLTHAZ02')
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'OverRADAR')
-            OBSTRN07(feature, featurePortrayal, contextParameters)
+            Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Point then
         if feature.categoryOfObstruction == 7 and feature.valueOfSounding then
@@ -68,7 +71,7 @@ function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddPointInstruction('FLTHAZ02')
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'OverRADAR')
-            OBSTRN07(feature, featurePortrayal, contextParameters)
+            Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Curve then
         if feature.categoryOfObstruction == 8 then
@@ -85,7 +88,7 @@ function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CSTLN'))
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'OverRADAR')
-            OBSTRN07(feature, featurePortrayal, contextParameters)
+            Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.categoryOfObstruction == 7 and feature.valueOfSounding then
@@ -114,7 +117,7 @@ function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CSTLN'))
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'UnderRADAR')
-            OBSTRN07(feature, featurePortrayal, contextParameters)
+            Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.categoryOfObstruction == 7 and feature.valueOfSounding then
@@ -143,7 +146,7 @@ function Portrayals.Obstruction(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CSTLN'))
         else
             featurePortrayal:SetDisplayParameters(34050, 4, nil, nil, 'UnderRADAR')
-            OBSTRN07(feature, featurePortrayal, contextParameters)
+            Portrayals.OBSTRN07(feature, featurePortrayal, contextParameters)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

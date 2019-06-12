@@ -15,6 +15,9 @@ end
 
 -- Main entry point for feature type.
 local Portrayals = Portrayals
+local LineStyles = LineStyles
+local Text = Text
+local PrimitiveType = PrimitiveType
 function Portrayals.LightSectored(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType ~= PrimitiveType.Point then
         error('LightSectored must be of spatial type point')
@@ -122,7 +125,7 @@ function Portrayals.LightSectored(feature, featurePortrayal, contextParameters)
 
                 featurePortrayal:AddTextInstruction(textPoint, nil, PortrayalModel.CreateDisplayParameters(23, 8))
 
-                local description = LITDSN02(feature.categoryOfLight[1], sectorCharacteristic, colour, feature.height, lightSector.valueOfNominalRange, feature.status)
+                local description = Portrayals.LITDSN02(feature.categoryOfLight[1], sectorCharacteristic, colour, feature.height, lightSector.valueOfNominalRange, feature.status)
 
                 local textElement = Text.CreateTextElement(description, defaultFontCharacteristics, 10, 'CHBLK')
                 local textPoint = Text.CreateTextPoint(textElement, Graphics.CreateVector(10.53, -3.51), nil, nil, nil, Text.VerticalAlignment.Center)
