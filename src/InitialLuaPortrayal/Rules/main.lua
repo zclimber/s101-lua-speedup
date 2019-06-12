@@ -64,7 +64,7 @@ function portrayal_main(datasetID, start, step)
 
             local featurePortrayal = featurePortrayalItem:NewFeaturePortrayal()
 
-            if ObservedContextParametersChanged(contextParameters, featurePortrayalItem) then
+            if ObservedContextParametersChanged(contextParameters, featurePortrayalItem) or true then
                 contextParameters._observed = {}
 
                 local status, err = pcall(function()
