@@ -83,16 +83,16 @@ int main() {
 //    return 0;
     std::vector<int> testFeatures;// = getGeneratedLists().featuresList;
 
-    const int countRuns = 1;
-//    const int countRuns = 100;
+//    const int countRuns = 1;
+    const int countRuns = 250;
     const int warmupRuns = std::min(500, countRuns / 5);
 
 //    printCatalogueStuff(drawer);
 
-    int cpp = 0;
     int th = 0; // 0 13577 9918, 635 features
-    int mod = 0;
-    int my = 0;
+    int conv = 0;
+    int opt = 0;
+    int cpp = 0;
     printTypes(drawer, testFeatures);
     for (int i = 0; i < warmupRuns + countRuns; i++) {
         timer t;
@@ -115,37 +115,16 @@ int main() {
     std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
     std::cerr.flush();
 
-//    mod = runModifiedLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
+//    opt = runModifiedLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
 //    std::cerr.flush();
 //    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
 //    std::cerr.flush();
 //
-    my = runMyLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
+    conv = runMyLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
     std::cerr.flush();
     std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
     std::cerr.flush();
 
-    std::cout << cpp / countRuns << " " << th / countRuns;// << " " << mod / countRuns << " " << my / countRuns;
-
-
-//    drawer.GetMutableContext().SetIsSymbolizedAreas(false);
-//    drawer.GetMutableContext().SetIsSimplifiedPoints(true);
-//    drawer.RunOnAllFeatures(ChooseRule, "out\\cpp\\");
-//    runTheirLua(drawer, "out\\thlua\\");
-//
-//    drawer.GetMutableContext().SetIsSymbolizedAreas(false);
-//    drawer.GetMutableContext().SetIsSimplifiedPoints(false);
-//    drawer.RunOnAllFeatures(ChooseRule, "out\\cpp\\");
-//    runTheirLua(drawer, "out\\thlua\\");
-//
-//    drawer.GetMutableContext().SetIsSymbolizedAreas(true);
-//    drawer.GetMutableContext().SetIsSimplifiedPoints(true);
-//    drawer.RunOnAllFeatures(ChooseRule, "out\\cpp\\");
-//    runTheirLua(drawer, "out\\thlua\\");
-//
-//    drawer.GetMutableContext().SetIsSymbolizedAreas(true);
-//    drawer.GetMutableContext().SetIsSimplifiedPoints(false);
-//    drawer.RunOnAllFeatures(ChooseRule, "out\\cpp\\");
-//    runTheirLua(drawer, "out\\thlua\\");
+    std::cout << th / countRuns << " " << opt / countRuns << " " << conv / countRuns << " " << cpp / countRuns;
     return 0;
 }

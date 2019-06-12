@@ -12,6 +12,7 @@ add_executable(dynamic
 
 add_subdirectory(S100RulesParser)
 add_subdirectory(InitialLuaPortrayal)
+add_subdirectory(OptimizedLuaPortrayal)
 add_subdirectory(ConvertedLuaPortrayal)
 
 target_link_libraries(dynamic tinyxml)
