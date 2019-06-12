@@ -149,6 +149,8 @@ Interpolation = {
     CircularArcCenterPointWithRadius = { Type = 'Interpolation', value = 7, Name = 'CircularArcCenterPointWithRadius' }
 }
 
+local dummySpatialAssociation
+
 local featureCache = {}
 
 function CreateFeature(featureID, featureCode)
@@ -286,49 +288,63 @@ function CreateFeature(featureID, featureCode)
                 end
             end
         elseif spatialType == SpatialType.CompositeCurve then
-            local i = 0
-
+            local first = true
             return function()
-                i = i + 1
-                return self.CompositeCurve.CurveAssociations[i]
+                if first then
+                    first = false
+                    return dummySpatialReference
+                end
             end
+            --local i = 0
+            --
+            --return function()
+            --    i = i + 1
+            --    return self.CompositeCurve.CurveAssociations[i]
+            --end
         elseif spatialType == SpatialType.Surface then
-            -- Do this the hard way since coroutines don't play nice with C callbacks.
-            local iRing = 0
-            local iCurve = 0
-
+            local first = true
             return function()
-                local ring
-
-                if iRing == 0 then
-                    ring = self.Surface.ExteriorRing
-                else
-                    ring = self.Surface.InteriorRings[iRing]
-                end
-
-                while ring do
-                    if iCurve == 0 then
-                        if ring.SpatialType == SpatialType.Curve then
-                            iRing = iRing + 1
-                            return ring
-                        end
-                    end
-
-                    iCurve = iCurve + 1
-
-                    local ca = ring.Spatial.CurveAssociations[iCurve]
-
-                    if ca then
-                        return ca
-                    end
-
-                    iCurve = 0
-
-                    iRing = iRing + 1
-
-                    ring = self.Surface.InteriorRings[iRing]
+                if first then
+                    first = false
+                    return dummySpatialReference
                 end
             end
+            ---- Do this the hard way since coroutines don't play nice with C callbacks.
+            --local iRing = 0
+            --local iCurve = 0
+            --
+            --return function()
+            --    local ring
+            --
+            --    if iRing == 0 then
+            --        ring = self.Surface.ExteriorRing
+            --    else
+            --        ring = self.Surface.InteriorRings[iRing]
+            --    end
+            --
+            --    while ring do
+            --        if iCurve == 0 then
+            --            if ring.SpatialType == SpatialType.Curve then
+            --                iRing = iRing + 1
+            --                return ring
+            --            end
+            --        end
+            --
+            --        iCurve = iCurve + 1
+            --
+            --        local ca = ring.Spatial.CurveAssociations[iCurve]
+            --
+            --        if ca then
+            --            return ca
+            --        end
+            --
+            --        iCurve = 0
+            --
+            --        iRing = iRing + 1
+            --
+            --        ring = self.Surface.InteriorRings[iRing]
+            --    end
+            --end
         end
     end
 
@@ -518,4 +534,13 @@ function CreateSurface(exteriorRing, interiorRings)
     surface.InteriorRings = surface.Spatial.InteriorRings
 
     return surface
+end
+
+dummySpatialAssociation = CreateSpatialAssociation(SpatialType.Curve, -1, Orientation.Forward)
+dummySpatialAssociation.Spatial = CreateSpatial(SpatialType.Curve)
+function dummySpatialAssociation:GetInformationAssociation()
+    return nil
+end
+function dummySpatialAssociation:GetInformationAssociations()
+    return {}
 end
