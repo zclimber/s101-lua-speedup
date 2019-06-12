@@ -23,6 +23,9 @@ void addLuaPath(lua_State *L, const char *path) {
 }
 
 void addLuaCFunction(lua_State *state, lua_CFunction func, const char *name) {
+    if (std::string("Host_DebuggerEntry") == name) {
+        return;
+    }
     lua_pushcfunction(state, func);
     lua_setglobal(state, name);
 }
