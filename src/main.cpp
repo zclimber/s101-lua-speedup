@@ -83,8 +83,8 @@ int main() {
 //    return 0;
     std::vector<int> testFeatures;// = getGeneratedLists().featuresList;
 
-    const int countRuns = 1;
-//    const int countRuns = 250;
+//    const int countRuns = 1;
+    const int countRuns = 500;
     const int warmupRuns = std::min(500, countRuns / 5);
 
 //    printCatalogueStuff(drawer);
@@ -110,7 +110,7 @@ int main() {
         if (i >= warmupRuns)
             cpp += rs;
     }
-//    th = runInitialLua(drawer, "out\\thlua\\", warmupRuns, countRuns, testFeatures);
+    th = runInitialLua(drawer, "out\\thlua\\", warmupRuns, countRuns, testFeatures);
     std::cerr.flush();
     std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
     std::cerr.flush();
@@ -125,6 +125,9 @@ int main() {
     std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
     std::cerr.flush();
 
-    std::cout << th / countRuns << " " << opt / countRuns << " " << conv / countRuns << " " << cpp / countRuns;
+    std::cout << "Initial Lua  : " << th / countRuns << " usec\n";
+    std::cout << "Optimized Lua: " << opt / countRuns << " usec\n";
+    std::cout << "Converted Lua: " << conv / countRuns << " usec\n";
+    std::cout << "Converted C++: " << cpp / countRuns << " usec\n";
     return 0;
 }
