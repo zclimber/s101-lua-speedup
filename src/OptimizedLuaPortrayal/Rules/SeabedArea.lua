@@ -3,7 +3,7 @@
 
 
 function Portrayals.SeabedArea(feature, featurePortrayal, contextParameters)
-    local function AddNatureOfSurfaceText()
+    local function AddNatureOfSurfaceText(feature, featurePortrayal)
         local natureOfSurfaceAbbrev = {
             [1] = 'M',
             [2] = 'Cy',
@@ -42,15 +42,15 @@ function Portrayals.SeabedArea(feature, featurePortrayal, contextParameters)
     if feature.PrimitiveType == PrimitiveType.Point then
         -- Simplified and paper chart points use the same symbolization
         featurePortrayal:SetDisplayParameters(34010, 4, nil, nil, 'OverRADAR')
-        AddNatureOfSurfaceText()
+        AddNatureOfSurfaceText(feature, featurePortrayal)
     elseif feature.PrimitiveType == PrimitiveType.Curve then
         featurePortrayal:SetDisplayParameters(34010, 4, nil, nil, 'OverRADAR')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleSolid(0.32, 'CHGRD'))
-        AddNatureOfSurfaceText()
+        AddNatureOfSurfaceText(feature, featurePortrayal)
     elseif feature.PrimitiveType == PrimitiveType.Surface and contextParameters.PLAIN_BOUNDARIES then
         if feature.waterLevelEffect == 3 and feature.surfaceCharacteristics[1] and feature.surfaceCharacteristics[1].natureOfSurface then
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'UnderRADAR')
-            AddNatureOfSurfaceText()
+            AddNatureOfSurfaceText(feature, featurePortrayal)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRD'))
         elseif feature.waterLevelEffect == 4 and feature.surfaceCharacteristics[1] and feature.surfaceCharacteristics[1].natureOfSurface == 9 then
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'UnderRADAR')
@@ -66,16 +66,16 @@ function Portrayals.SeabedArea(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRD'))
         elseif feature.waterLevelEffect == 4 and feature.surfaceCharacteristics[1] and feature.surfaceCharacteristics[1].natureOfSurface then
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'UnderRADAR')
-            AddNatureOfSurfaceText()
+            AddNatureOfSurfaceText(feature, featurePortrayal)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRD'))
         else
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'OverRADAR')
-            AddNatureOfSurfaceText()
+            AddNatureOfSurfaceText(feature, featurePortrayal)
         end
     elseif feature.PrimitiveType == PrimitiveType.Surface then
         if feature.waterLevelEffect == 3 and feature.surfaceCharacteristics[1] and feature.surfaceCharacteristics[1].natureOfSurface then
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'UnderRADAR')
-            AddNatureOfSurfaceText()
+            AddNatureOfSurfaceText(feature, featurePortrayal)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRD'))
         elseif feature.waterLevelEffect == 4 and feature.surfaceCharacteristics[1] and feature.surfaceCharacteristics[1].natureOfSurface == 9 then
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'UnderRADAR')
@@ -91,11 +91,11 @@ function Portrayals.SeabedArea(feature, featurePortrayal, contextParameters)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRD'))
         elseif feature.waterLevelEffect == 4 and feature.surfaceCharacteristics[1] and feature.surfaceCharacteristics[1].natureOfSurface then
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'UnderRADAR')
-            AddNatureOfSurfaceText()
+            AddNatureOfSurfaceText(feature, featurePortrayal)
             featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleDash(0.32, 'CHGRD'))
         else
             featurePortrayal:SetDisplayParameters(34010, 3, nil, nil, 'OverRADAR')
-            AddNatureOfSurfaceText()
+            AddNatureOfSurfaceText(feature, featurePortrayal)
         end
     else
         error('Invalid primitive type or mariner settings passed to portrayal')

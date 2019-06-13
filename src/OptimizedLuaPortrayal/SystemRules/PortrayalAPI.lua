@@ -204,6 +204,16 @@ function CreateFeature(featureID, featureCode)
         end
     end
 
+    local once
+
+    local function onceFunc()
+        if once then
+            local t = once
+            once = nil
+            return t
+        end
+    end
+
     -- Returns an iterator that returns all spatial associations to points, multi points and curves
     -- associated to the feature.  Surface and composite curves return only their ultimate simple curves.
     -- This only works for features with a single spatial association.
@@ -211,22 +221,11 @@ function CreateFeature(featureID, featureCode)
         local spatialType = self:GetSpatialAssociation().SpatialType
 
         if contains(spatialType, { SpatialType.Point, SpatialType.MultiPoint, SpatialType.Curve }) then
-            local first = true
-
-            return function()
-                if first then
-                    first = false
-                    return self:GetSpatialAssociation()
-                end
-            end
+            once = self:GetSpatialAssociation()
+            return onceFunc
         elseif spatialType == SpatialType.CompositeCurve then
-            local first = true
-            return function()
-                if first then
-                    first = false
-                    return dummySpatialAssociation
-                end
-            end
+            once = dummySpatialAssociation
+            return onceFunc
             --local i = 0
             --
             --return function()
@@ -234,13 +233,8 @@ function CreateFeature(featureID, featureCode)
             --    return self.CompositeCurve.CurveAssociations[i]
             --end
         elseif spatialType == SpatialType.Surface then
-            local first = true
-            return function()
-                if first then
-                    first = false
-                    return dummySpatialAssociation
-                end
-            end
+            once = dummySpatialAssociation
+            return onceFunc
             ---- Do this the hard way since coroutines don't play nice with C callbacks.
             --local iRing = 0
             --local iCurve = 0

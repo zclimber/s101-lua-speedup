@@ -54,7 +54,22 @@ function portrayal_main(datasetID, start, step)
         end
     end
 
+    local C = ffi.C
+
     --Debug.Break()
+
+    local function portrayalCall(feature, featurePortrayal, contextParameters)
+        featurePortrayal.DisplayParameters.ScaleMinimum = feature['!scaleMinimum']
+        --featurePortrayal.DisplayParameters.ScaleMaximum = feature['!scaleMaximum']
+
+        Portrayals[feature.Code](feature, featurePortrayal, contextParameters)
+
+        if featurePortrayal:GetInstructionCount() == 0 then
+            error('No drawing instructions were emitted for feature ' .. feature.ID)
+        elseif featurePortrayal:IsDefaultDisplayParameters() and featurePortrayal.DrawingInstructions[0].Type ~= 0 then
+            error('SetDisplayParameters() not called by portrayal rules for feature ' .. feature.ID)
+        end
+    end
 
     local visibleFeatures = 0
     local cachedFeatures = 0
@@ -64,7 +79,7 @@ function portrayal_main(datasetID, start, step)
 
         local feature = featurePortrayalItem.Feature
 
-        if true or feature:IsVisible() or contains(feature.Code, AlwaysVisibleFeatures) then
+        if true or feature:IsVisible() or AlwaysVisibleFeatures[feature.Code] then
             visibleFeatures = visibleFeatures + 1
 
             local featurePortrayal = featurePortrayalItem:NewFeaturePortrayal()
@@ -72,19 +87,7 @@ function portrayal_main(datasetID, start, step)
             if contextParameters:SavedObservedParametersDiffer(featurePortrayalItem) or true then
                 contextParameters:Reset()
 
-                local status, err = pcall(function()
-                    featurePortrayal.DisplayParameters.ScaleMinimum = feature['!scaleMinimum']
-                    --featurePortrayal.DisplayParameters.ScaleMaximum = feature['!scaleMaximum']
-
-                    require(feature.Code)
-                    Portrayals[feature.Code](feature, featurePortrayal, contextParameters)
-
-                    if featurePortrayal:GetInstructionCount() == 0 then
-                        error('No drawing instructions were emitted for feature ' .. feature.ID)
-                    elseif featurePortrayal:IsDefaultDisplayParameters() and featurePortrayal.DrawingInstructions[0].Type ~= 'NullInstruction' then
-                        error('SetDisplayParameters() not called by portrayal rules for feature ' .. feature.ID)
-                    end
-                end)
+                local status, err = pcall(portrayalCall, feature, featurePortrayal, contextParameters)
 
                 if not status then
                     Debug.Trace('Error: ' .. err .. '.  Default symbology for ' .. feature.Code .. ' ID=' .. feature.ID .. ' returned.')
@@ -99,7 +102,7 @@ function portrayal_main(datasetID, start, step)
 
                 local cDrawingInstructionsCount = featurePortrayal:GetInstructionCount()
 
-                if not ffi.C.LuaHost_display(feature.ID, featurePortrayal.DrawingInstructions, cDrawingInstructionsCount) then
+                if not C.LuaHost_display(feature.ID, featurePortrayal.DrawingInstructions, cDrawingInstructionsCount) then
                     break
                 end
             else
@@ -151,6 +154,6 @@ SkinOfTheEarthFeatures = {
 
 -- Always portray features that extend beyond their geometry.
 AlwaysVisibleFeatures = {
-    'LightSectored'
+    LightSectored = true
 }
 
