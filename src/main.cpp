@@ -79,6 +79,10 @@ int main() {
 //    freopen("err.txt", "w", stderr);
 
     TestObjectDrawer drawer = readFromXML("maps/101CA00270084.usf.xml");
+    std::vector<int> excluded = {11735, 11746, 11724, 11744, 11745, 12691, 12694, 12695, 12720, 12721, 12669, 12670,
+                                 12671, 12672, 12673, 12674, 12675, 12676, 11748};
+    for (auto x : excluded)
+        drawer.RemoveFeature(x);
 //    TestObjectDrawer drawer = readFromAllXML();
 //    return 0;
     std::vector<int> testFeatures;// = getGeneratedLists().featuresList;
@@ -89,9 +93,9 @@ int main() {
 
 //    printCatalogueStuff(drawer);
 
-    int th = 0; // 0 13577 9918, 635 features
-    int conv = 0;
-    int opt = 0;
+    int th[4] = {-1, -1, -1, -1}; // 0 13577 9918, 635 features
+    int conv[4];
+    int opt[4];
     int cpp = 0;
     printTypes(drawer, testFeatures);
     for (int i = 0; i < warmupRuns + countRuns; i++) {
@@ -102,7 +106,7 @@ int main() {
             drawer.RunOnSetFeatures(ChooseRule, "out\\cpp\\", testFeatures);
         }
         int rs = t.stop();
-        if (i == 0) {
+        if (i == warmupRuns + countRuns - 1) {
             std::cerr.flush();
             std::cout << drawer.drawCalls << " draw calls\n";
             std::cerr.flush();
@@ -110,24 +114,39 @@ int main() {
         if (i >= warmupRuns)
             cpp += rs;
     }
-    th = runInitialLua(drawer, "out\\thlua\\", warmupRuns, countRuns, testFeatures);
-    std::cerr.flush();
-    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
-    std::cerr.flush();
+//    th[0] = runInitialLuaCold(drawer, "out\\thlua\\", countRuns, testFeatures);
+//    th[1] = runInitialLuaShort(drawer, "out\\thlua\\", countRuns, testFeatures);
+//    th[2] = runInitialLuaLong(drawer, "out\\thlua\\", countRuns, testFeatures);
+//    std::cerr.flush();
+//    std::cout << drawer.drawCalls / (countRuns) << " draw calls\n";
+//    std::cerr.flush();
+//    th[3] = runInitialLuaCreate(drawer, "out\\thlua\\", countRuns, testFeatures);
 
-    opt = runModifiedLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
+    opt[0] = runModifiedLuaCold(drawer, "out\\modlua\\", countRuns, testFeatures);
+    opt[1] = runModifiedLuaShort(drawer, "out\\modlua\\", countRuns, testFeatures);
+    opt[2] = runModifiedLuaLong(drawer, "out\\modlua\\", countRuns, testFeatures);
     std::cerr.flush();
-    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
+    std::cout << drawer.drawCalls / (countRuns) << " draw calls\n";
     std::cerr.flush();
+    opt[3] = runModifiedLuaCreate(drawer, "out\\modlua\\", countRuns, testFeatures);
 //
-    conv = runMyLua(drawer, "out\\modlua\\", warmupRuns, countRuns, testFeatures);
+    conv[0] = runMyLuaCold(drawer, "out\\modlua\\", countRuns, testFeatures);
+    conv[1] = runMyLuaShort(drawer, "out\\modlua\\", countRuns, testFeatures);
+    conv[2] = runMyLuaLong(drawer, "out\\modlua\\", countRuns, testFeatures);
     std::cerr.flush();
-    std::cout << drawer.drawCalls / (warmupRuns + countRuns) << " draw calls\n";
+    std::cout << drawer.drawCalls / (countRuns) << " draw calls\n";
     std::cerr.flush();
+    conv[3] = runMyLuaCreate(drawer, "out\\modlua\\", countRuns, testFeatures);
 
-    std::cout << "Initial Lua  : " << th / countRuns << " usec\n";
-    std::cout << "Optimized Lua: " << opt / countRuns << " usec\n";
-    std::cout << "Converted Lua: " << conv / countRuns << " usec\n";
-    std::cout << "Converted C++: " << cpp / countRuns << " usec\n";
+    for (int i = 0; i < 4; i++) {
+        std::cout << th[i] / countRuns << ";";
+        std::cout << opt[i] / countRuns << ";";
+        std::cout << conv[i] / countRuns << ";";
+        std::cout << cpp / countRuns << "\n";
+//        std::cout << "Initial Lua  : " << th / countRuns << " usec\n";
+//        std::cout << "Optimized Lua: " << opt / countRuns << " usec\n";
+//        std::cout << "Converted Lua: " << conv / countRuns << " usec\n";
+//        std::cout << "Converted C++: " << cpp / countRuns << " usec\n";
+    }
     return 0;
 }

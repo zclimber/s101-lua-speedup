@@ -8,6 +8,7 @@
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/maps" />
+      <file path="$PROJECT_DIR$/src/InitialLuaPortrayal/Rules" />
     </excludeRoots>
   </component>
 </project>

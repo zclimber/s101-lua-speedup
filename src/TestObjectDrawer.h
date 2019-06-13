@@ -178,6 +178,8 @@ public:
 
     void AddFeature(Feature &&feature, int index_feature);
 
+    void RemoveFeature(int index_feature);
+
     void AddSpatial(Spatial &&spatial);
 
     const Spatial &GetSpatial(int id_spatial) const override;

@@ -128,8 +128,7 @@ lua_State *prepareMyState() {
     return state;
 }
 
-int
-runMyLua(TestObjectDrawer &drawer, const std::string &prefix, int warmup, int runs, const std::vector<int> &features) {
+void setupConv(TestObjectDrawer &drawer, const std::string &prefix, const std::vector<int> &features) {
     pDrawerMy = static_cast<IObjectDrawer *>(&drawer);
 
     if (features.empty()) {
@@ -140,16 +139,90 @@ runMyLua(TestObjectDrawer &drawer, const std::string &prefix, int warmup, int ru
         drawer.drawCalls = 0;
         features_mylua = features;
     }
+}
 
+void teardownConv() {
+    pDrawerMy = nullptr;
+    features_mylua.clear();
+}
+
+int
+runMyLuaLong(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features) {
+    setupConv(drawer, prefix, features);
     lua_State *L = prepareMyState();
 
-    runPortrayalMainTimes(L, std::max(2, warmup));
+    runPortrayalMainTimes(L, std::max(2, runs / 5));
     timer t("My lua");
     runPortrayalMainTimes(L, runs);
     int time = t.stop();
-
-    pDrawerMy = nullptr;
-    features_mylua.clear();
     lua_close(L);
+
+    teardownConv();
     return time;
+}
+
+int
+runMyLuaShort(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features) {
+    setupConv(drawer, prefix, features);
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter += 5) {
+        lua_State *L = prepareMyState();
+        runPortrayalMainTimes(L, 1);
+        timer t("My lua");
+        runPortrayalMainTimes(L, 5);
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+    teardownConv();
+    return ttl;
+}
+
+int runMyLuaCold(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features) {
+    setupConv(drawer, prefix, features);
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter++) {
+        lua_State *L = prepareMyState();
+        lua_getglobal(L, "getFeatures");
+        lua_pushstring(L, "testset");
+        int res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return 0;
+        }
+        timer t("My lua");
+        runPortrayalMainTimes(L, 1);
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+    teardownConv();
+    return ttl;
+}
+
+
+int runMyLuaCreate(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features) {
+    setupConv(drawer, prefix, features);
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter++) {
+        lua_State *L = prepareMyState();
+        timer t("My lua");
+        lua_getglobal(L, "getFeatures");
+        lua_pushstring(L, "testset");
+        int res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return -0;
+        }
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+    teardownConv();
+    return ttl;
 }

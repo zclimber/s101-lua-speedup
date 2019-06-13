@@ -24,6 +24,34 @@ const char *SpatialReference::SpatialTypeName() const {
     }
 }
 
+const char *SpatialReference::PrimitiveName() const {
+    switch (SpatialType) {
+        case SpatialReferenceType::Point:
+            return "Point";
+        case SpatialReferenceType::Curve:
+        case SpatialReferenceType::CompositeCurve:
+            return "Curve";
+        case SpatialReferenceType::Surface:
+            return "Surface";
+        default:
+            return "None";
+    }
+}
+
+int SpatialReference::PrimitiveNumber() const {
+    switch (SpatialType) {
+        case SpatialReferenceType::Point:
+            return 1;
+        case SpatialReferenceType::Curve:
+        case SpatialReferenceType::CompositeCurve:
+            return 3;
+        case SpatialReferenceType::Surface:
+            return 4;
+        default:
+            return -100;
+    }
+}
+
 Spatial::Spatial(int id, int type) : Spatial(id, type, 0, -1) {}
 
 Spatial::Spatial(int id, int type_int, int scaleMinimum, int scaleMaximum) : id(id), scale_minimum(scaleMinimum),

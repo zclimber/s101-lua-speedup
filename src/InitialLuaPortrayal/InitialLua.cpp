@@ -453,7 +453,7 @@ lua_State *prepareTheirState() {
 
     addLuaPath(state, R"(src\InitialLuaPortrayal\Rules\?.lua)");
 
-    luaL_loadfile(state, R"(src\InitialLuaPortrayal\Rules\main.lua)");
+    luaL_loadfile(state, R"(src\InitialLuaPortrayal\Rules\loadall.lua)");
     int res = lua_pcall(state, 0, 0, 0);
     if (res != 0) {
         std::cerr << lua_tostring(state, -1) << "\n";
@@ -503,8 +503,8 @@ void runLuaTimes(lua_State *L, int times = 1) {
     }
 }
 
-int runInitialLua(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int warmup, int runs,
-                  const std::vector<int> &features) {
+
+void setupInit(TestObjectDrawer &testObjectDrawer, const std::string &prefix, const std::vector<int> &features) {
     drawer = &testObjectDrawer;
 
     if (features.empty()) {
@@ -515,26 +515,106 @@ int runInitialLua(TestObjectDrawer &testObjectDrawer, const std::string &prefix,
         testObjectDrawer.drawCalls = 0;
         features_theirlua = features;
     }
+}
 
-    lua_State *L = prepareTheirState();
+void teardownInit(int runs) {
+    for (const auto &x : traces) {
+        std::cerr << x.first << ": " << x.second / (std::max(2, runs / 5) + runs) << " times\n";
+    }
+    traces.clear();
+    features_theirlua.clear();
+}
+
+int runInitialLuaCreate(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                        const std::vector<int> &features) {
+    setupInit(testObjectDrawer, prefix, features);
+
 
 //    doStringPrintErr(L, "require('mobdebug').start()");
 
-    setContextParameters(L, testObjectDrawer.GetContext());
-    runPortrayalMainTimes(L, std::max(2, warmup));
-    timer t("Their lua");
-    runPortrayalMainTimes(L, runs);
-//    testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
-    int time = t.stop();
-
-    for (const auto &x : traces) {
-        std::cerr << x.first << ": " << x.second / (warmup + runs) << " times\n";
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter++) {
+        lua_State *L = prepareTheirState();
+        timer t("Their lua");
+        setContextParameters(L, testObjectDrawer.GetContext());
+        ttl += t.stop();
+        lua_close(L);
     }
 
 //    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
 
+    teardownInit(runs);
+    return ttl;
+}
+
+int runInitialLuaLong(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                      const std::vector<int> &features) {
+    setupInit(testObjectDrawer, prefix, features);
+
+    lua_State *L = prepareTheirState();
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+    doStringPrintErr(L, "require('jit.opt').start('sizemcode=2048','maxmcode=2048')");
+
+    setContextParameters(L, testObjectDrawer.GetContext());
+    runPortrayalMainTimes(L, std::max(2, runs / 5));
+    timer t("Their lua");
+    runPortrayalMainTimes(L, runs);
+//    testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
+    int time = t.stop();
     lua_close(L);
-    traces.clear();
-    features_theirlua.clear();
+
+//    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
+
+    teardownInit(runs);
     return time;
 }
+
+int runInitialLuaShort(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                       const std::vector<int> &features) {
+    setupInit(testObjectDrawer, prefix, features);
+
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter += 5) {
+        lua_State *L = prepareTheirState();
+        setContextParameters(L, testObjectDrawer.GetContext());
+        runPortrayalMainTimes(L, 1);
+        timer t("Their lua");
+        runPortrayalMainTimes(L, 5);
+//    testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+//    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
+
+    teardownInit(runs);
+    return ttl;
+}
+
+int runInitialLuaCold(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                      const std::vector<int> &features) {
+    setupInit(testObjectDrawer, prefix, features);
+
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter++) {
+        lua_State *L = prepareTheirState();
+        setContextParameters(L, testObjectDrawer.GetContext());
+        timer t("Their lua");
+        runPortrayalMainTimes(L, 1);
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+//    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
+
+    teardownInit(runs);
+    return ttl;
+}
+

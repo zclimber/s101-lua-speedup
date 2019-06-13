@@ -9,6 +9,7 @@
 #include "lua/lua.hpp"
 #include <vector>
 #include <iostream>
+#include <cstring>
 #include <S100RulesParser/private/S101Primitives.h>
 
 using std::min;
@@ -174,7 +175,7 @@ S101RULES_API const char *LuaHost_getPrimitive(int feature_id) {
 }
 
 S101RULES_API bool LuaHost_display(int feature_id, struct DrawingInstruction *instructions, int instructionCount) {
-    std::cerr << feature_id << "\n";
+//    std::cerr << feature_id << "\n";
     S101ObjectDrawerParam param;
     for (int i = 0; i < instructionCount; i++) {
         int id;
@@ -223,6 +224,16 @@ S101RULES_API bool LuaHost_display(int feature_id, struct DrawingInstruction *in
 
 }
 
+std::map<std::string, int> optTraces;
+
+int Host_DebuggerEntry2(lua_State *l) {
+    const char *type = lua_tostring(l, 1);
+    if (strcmp(type, "trace") == 0) {
+        optTraces[lua_tostring(l, 2)]++;
+    }
+    return 0;
+}
+
 lua_State *prepareModState() {
     lua_State *state = luaL_newstate();
     luaL_openlibs(state);
@@ -237,33 +248,136 @@ lua_State *prepareModState() {
         const char *string = lua_tostring(state, -1);
         std::cout << "Modified Lua load error: " << string << "\n";
     }
+    addLuaCFunction(state, Host_DebuggerEntry2, "Host_DebuggerEntry");
     return state;
 }
 
-int runModifiedLua(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int warmup, int runs,
-                   const std::vector<int> &features) {
+void setupOpt(TestObjectDrawer &testObjectDrawer, const std::string &prefix, const std::vector<int> &features) {
     pDrawer = static_cast<IObjectDrawer *>(&testObjectDrawer);
 
     if (features.empty()) {
         testObjectDrawer.RunOnAllFeatures([](IObjectDrawer *drawer1, int clazz, int index) {
-            if (index == 238)
-                return;
+//            if (index == 238)
+//                return;
             features_modlua.push_back(index);
         }, prefix);
     } else {
         testObjectDrawer.drawCalls = 0;
         features_modlua = features;
     }
+}
 
-    lua_State *L = prepareModState();
-
-    runPortrayalMainTimes(L, std::max(2, warmup));
-    timer t("Modified lua");
-    runPortrayalMainTimes(L, runs);
-    int time = t.stop();
+void teardownOpt(int runs) {
+    for (const auto &x : optTraces) {
+        std::cerr << x.first << ": " << x.second / (std::max(2, runs / 5) + runs) << " times\n";
+    }
+    optTraces.clear();
 
     pDrawer = nullptr;
     features_modlua.clear();
+}
+
+int runModifiedLuaLong(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                       const std::vector<int> &features) {
+    setupOpt(testObjectDrawer, prefix, features);
+
+    lua_State *L = prepareModState();
+
+    doStringPrintErr(L, "require('jit.opt').start('sizemcode=2048','maxmcode=2048')");
+
+//    doStringPrintErr(L, "require('jit.v').start()");
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+    runPortrayalMainTimes(L, std::max(2, runs / 5));
+    timer t("Modified lua");
+    runPortrayalMainTimes(L, runs);
+    int time = t.stop();
     lua_close(L);
+
+    teardownOpt(runs);
+
     return time;
+}
+
+int runModifiedLuaShort(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                        const std::vector<int> &features) {
+    setupOpt(testObjectDrawer, prefix, features);
+
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter += 5) {
+        lua_State *L = prepareModState();
+        runPortrayalMainTimes(L, 1);
+        timer t("Their lua");
+        runPortrayalMainTimes(L, 5);
+//    testObjectDrawer.GetMutableContext().SetIsSimplifiedPoints(!testObjectDrawer.GetContext().IsSymbolizedAreas());
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+//    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
+
+    teardownOpt(runs);
+    return ttl;
+}
+
+int runModifiedLuaCold(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                       const std::vector<int> &features) {
+    setupOpt(testObjectDrawer, prefix, features);
+
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter++) {
+        lua_State *L = prepareModState();
+        lua_getglobal(L, "UpdatePortrayalContextParameters");
+        lua_pushstring(L, "testset");
+        int res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return -0;
+        }
+        timer t("Their lua");
+        runPortrayalMainTimes(L, 1);
+        ttl += t.stop();
+        lua_close(L);
+    }//UpdatePortrayalContextParameters(datasetID)
+
+//    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
+
+    teardownOpt(runs);
+    return ttl;
+}
+
+int runModifiedLuaCreate(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                         const std::vector<int> &features) {
+    setupOpt(testObjectDrawer, prefix, features);
+
+
+//    doStringPrintErr(L, "require('mobdebug').start()");
+
+    int ttl = 0;
+    for (int iter = 0; iter <= runs; iter++) {
+        lua_State *L = prepareModState();
+        timer t("Their lua");
+        lua_getglobal(L, "UpdatePortrayalContextParameters");
+        lua_pushstring(L, "testset");
+        int res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return -0;
+        }
+        ttl += t.stop();
+        lua_close(L);
+    }
+
+//    doStringPrintErr(L, "print(require('inspect')(SpyInfo))");
+
+    teardownOpt(runs);
+    return ttl;
 }

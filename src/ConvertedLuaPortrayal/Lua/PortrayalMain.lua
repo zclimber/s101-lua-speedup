@@ -260,7 +260,7 @@ ffi.metatype("struct CFeature", require('AttributeLookup'))
 local featureSets = {}
 local featureSetSizes = {}
 
-local function getFeatures(datasetID)
+function getFeatures(datasetID)
     local featureArray = featureSets[datasetID]
     local featureCount = featureSetSizes[datasetID]
     if not featureArray then

@@ -235,7 +235,7 @@ struct DrawingInstruction {
         AugmentedLineOrArea, AugmentedRay, AugmentedPath, AugmentedArea
     } Type;
     int FeatureReference;
-    struct DrawingSpatialReference *Spatials;
+    struct DrawingSpatialReference Spatials[2];
     int SpatialsCount;
     struct DisplayParameters_ DisplayParameters;
     struct Symbol_ Symbol;

@@ -123,6 +123,10 @@ void TestObjectDrawer::AddFeature(Feature &&feature, int index_feature) {
 //    features[index_feature] = feature;
 }
 
+void TestObjectDrawer::RemoveFeature(int index_feature) {
+    features.erase(index_feature);
+}
+
 void TestObjectDrawer::AddSpatial(Spatial &&spatial) {
     spatials.insert({spatial.id, std::move(spatial)});
 }

@@ -23,6 +23,10 @@ struct SpatialReference {
     SpatialReference(int id, int direction, int type);
 
     const char *SpatialTypeName() const;
+
+    const char *PrimitiveName() const;
+
+    int PrimitiveNumber() const;
 };
 struct GeoPoint {
     double lat, lon;

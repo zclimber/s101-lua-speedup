@@ -9,7 +9,16 @@
 #include "lua/lua.hpp"
 #include "TestObjectDrawer.h"
 
-int runInitialLua(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int warmup, int runs,
-                  const std::vector<int> &features = std::vector<int>());
+int runInitialLuaLong(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                      const std::vector<int> &features);
+
+int runInitialLuaShort(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                       const std::vector<int> &features);
+
+int runInitialLuaCold(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                      const std::vector<int> &features);
+
+int runInitialLuaCreate(TestObjectDrawer &testObjectDrawer, const std::string &prefix, int runs,
+                        const std::vector<int> &features);
 
 #endif //PROJECT_THEIRLUA_H

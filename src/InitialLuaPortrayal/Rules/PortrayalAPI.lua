@@ -292,7 +292,7 @@ function CreateFeature(featureID, featureCode)
             return function()
                 if first then
                     first = false
-                    return dummySpatialReference
+                    return dummySpatialAssociation
                 end
             end
             --local i = 0
@@ -306,7 +306,7 @@ function CreateFeature(featureID, featureCode)
             return function()
                 if first then
                     first = false
-                    return dummySpatialReference
+                    return dummySpatialAssociation
                 end
             end
             ---- Do this the hard way since coroutines don't play nice with C callbacks.

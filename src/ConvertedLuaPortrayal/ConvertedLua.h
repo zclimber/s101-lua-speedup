@@ -8,7 +8,13 @@
 #include <vector>
 #include "TestObjectDrawer.h"
 
-int runMyLua(TestObjectDrawer &drawer, const std::string &prefix, int warmup, int runs,
-             const std::vector<int> &features = std::vector<int>());
+int runMyLuaLong(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features);
+
+int runMyLuaShort(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features);
+
+int runMyLuaCold(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features);
+
+int runMyLuaCreate(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features);
+
 
 #endif //PROJECT_MYLUA_H
