@@ -83,28 +83,10 @@ struct PointVector {
     double Y;
 };
 
-enum CRSTypeEnum {
-    GeographicCRS, PortrayalCRS, LocalCRS, LineCRS
-};
-
-struct CRSTypeStruct {
-    enum CRSTypeEnum Name;
-};
-
-enum AreaPlacementModeEnum {
-    VisibleParts, Geographic
-};
-
 struct AreaSymbolPlacement {
-    struct PlacementMode_ {
-        enum AreaPlacementModeEnum Name;
+    enum AreaPlacementModeEnum {
+       VisibleParts, Geographic
     } PlacementMode;
-};
-
-struct HorizontalAlignmentMode {
-    enum HorizontalAlignmentModeEnum {
-        Start, End, Center
-    } Name;
 };
 
 struct Color {
@@ -112,17 +94,12 @@ struct Color {
     double Transparency;
 };
 
-
-struct VerticalAlignmentMode {
-    enum VerticalAlignmentModeEnum {
-        Top, Bottom, CenterV
-    } Name;
-};
-
 struct Symbol_ {
     const char *Reference;
     double Rotation;
-    struct CRSTypeStruct RotationCRS;
+    enum CRSTypeEnum {
+        GeographicCRS, PortrayalCRS, LocalCRS, LineCRS
+    } RotationCRS;
     double ScaleFactor;
     struct PointVector Offset;
     enum AreaPlacementModeEnum PlacementMode;
@@ -161,8 +138,12 @@ struct Text_ {
     enum TextType {
         TextPoint, TextLine
     } Type;
-    struct HorizontalAlignmentMode HorizontalAlignment;
-    struct VerticalAlignmentMode VerticalAlignment;
+    enum HorizontalAlignmentModeEnum {
+        Start, End, Center
+    } HorizontalAlignment;
+    enum VerticalAlignmentModeEnum {
+        Top, Bottom, CenterV
+    } VerticalAlignment;
     struct TextElement Elements[1];
     int ElementsCount;
 
@@ -191,32 +172,24 @@ struct DashType {
     double Start, Length;
 };
 
+
+
 struct LineSymbolType{
     const char * Reference;
     double Rotation, ScaleFactor;
-    struct CRSTypeStruct CRSType;
-};
-
-enum CapStyleType {
-    Butt, Square, Round
-} CapStyle;
-struct CapStyleStruct{
-	enum CapStyleType Name;
-};
-
-enum JoinStyleType {
-	Bevel, Miter, RoundJ
-} JoinStyle;
-struct JoinStyleStruct {
-	enum JoinStyleType Name;
+    enum CRSTypeEnum CRSType;
 };
 
 struct LineStyleType {
     enum LineStyleTypeEnum {
         LineStyleReference, LineStyle
     } Type;
-    struct CapStyleStruct CapStyle;
-    struct JoinStyleStruct JoinStyle;
+    enum CapStyleType {
+        Butt, Square, Round
+    } CapStyle;
+    enum JoinStyleType {
+        Bevel, Miter, RoundJ
+    } JoinStyle;
     const char *Reference;
     double IntervalLength, Offset;
     struct DashType Dashes[10];

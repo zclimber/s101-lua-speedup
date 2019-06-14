@@ -671,10 +671,10 @@ end
 Graphics = {
     Type = "Graphics",
     CRSType = {
-        Geographic = { Type = 'CRSType', Value = 1, Name = 'GeographicCRS' },
-        Portrayal = { Type = 'CRSType', Value = 2, Name = 'PortrayalCRS' },
-        Local = { Type = 'CRSType', Value = 3, Name = 'LocalCRS' },
-        Line = { Type = 'CRSType', Value = 4, Name = 'LineCRS' }
+        Geographic = 'GeographicCRS',
+        Portrayal = 'PortrayalCRS',
+        Local = 'LocalCRS',
+        Line = 'LineCRS'
     }
 }
 
@@ -782,12 +782,12 @@ end
 Symbol = {
     Type = "Symbol",
     LinePlacementMode = {
-        Relative = { Type = 'LinePlacementMode', Value = 1, Name = 'Relative' },
-        Absolute = { Type = 'LinePlacementMode', Value = 2, Name = 'Absolute' }
+        Relative = 'Relative',
+        Absolute = 'Absolute'
     },
     AreaPlacementMode = {
-        VisibleParts = { Type = 'AreaPlacementMode', Value = 1, Name = 'VisibleParts' },
-        Geographic = { Type = 'AreaPlacementMode', Value = 2, Name = 'Geographic' }
+        VisibleParts = 'VisibleParts',
+        Geographic = 'Geographic'
     }
 }
 
@@ -844,14 +844,14 @@ end
 LineStyles = {
     Type = "LineStyles",
     CapStyle = {
-        Butt = { Type = 'CapStyle', Value = 1, Name = 'Butt' },
-        Square = { Type = 'CapStyle', Value = 2, Name = 'Square' },
-        Round = { Type = 'CapStyle', Value = 3, Name = 'Round' }
+        Butt = 'Butt',
+        Square = 'Square',
+        Round = 'Round'
     },
     JoinStyle = {
-        Bevel = { Type = 'JoinStyle', Value = 1, Name = 'Bevel' },
-        Miter = { Type = 'JoinStyle', Value = 2, Name = 'Miter' },
-        Round = { Type = 'JoinStyle', Value = 3, Name = 'Round' }
+        Bevel = 'Bevel',
+        Miter = 'Miter',
+        Round = 'RoundJ'
     }
 }
 
@@ -962,9 +962,9 @@ end
 AreaFills = {
     Type = "AreaFills",
     AreaCRSType = {
-        Global = { Type = 'AreaCRSType', Value = 1, Name = 'Global' },
-        LocalGeometry = { Type = 'AreaCRSType', Value = 2, Name = 'LocalGeometry' },
-        GlobalGeometry = { Type = 'AreaCRSType', Value = 3, Name = 'GlobalGeometry' }
+        'Global',
+        'LocalGeometry',
+        'GlobalGeometry'
     }
 }
 
@@ -1080,32 +1080,32 @@ end
 Text = {
     Type = "Text",
     FontProportion = {
-        MonoSpaced = { Type = 'FontProportion', Value = 1, Name = 'MonoSpaced' },
-        Proportional = { Type = 'FontProportion', Value = 2, Name = 'Proportional' }
+        MonoSpaced = 'MonoSpaced',
+        Proportional = 'Proportional'
     },
     FontSlant = {
-        Upright = { Type = 'FontSlant', Value = 1, Name = 'Upright' },
-        Italics = { Type = 'FontSlant', Value = 2, Name = 'Italics' }
+        Upright = 'Upright',
+        Italics = 'Italics'
     },
     FontWeight = {
-        Light = { Type = 'FontWeight', Value = 1, Name = 'Light' },
-        Medium = { Type = 'FontWeight', Value = 2, Name = 'Medium' },
-        Bold = { Type = 'FontWeight', Value = 3, Name = 'Bold' }
+        Light = 'Light',
+        Medium = 'Medium',
+        Bold = 'Bold'
     },
     TextFlag = {
-        UnderLine = { Type = 'TextFlag', Value = 1, Name = 'UnderLine' },
-        StrikeThrough = { Type = 'TextFlag', Value = 2, Name = 'StrikeThrough' },
-        UpperLine = { Type = 'TextFlag', Value = 3, Name = 'UpperLine' }
+        UnderLine = 'UnderLine',
+        StrikeThrough = 'StrikeThrough',
+        UpperLine = 'UpperLine'
     },
     HorizontalAlignment = {
-        Start = { Type = 'HorizontalAlignment', Value = 1, Name = 'Start' },
-        End = { Type = 'HorizontalAlignment', Value = 2, Name = 'End' },
-        Center = { Type = 'HorizontalAlignment', Value = 3, Name = 'Center' }
+        Start = 'Start',
+        End = 'End',
+        Center = 'Center'
     },
     VerticalAlignment = {
-        Top = { Type = 'VerticalAlignment', Value = 1, Name = 'Top' },
-        Bottom = { Type = 'VerticalAlignment', Value = 2, Name = 'Bottom' },
-        Center = { Type = 'VerticalAlignment', Value = 3, Name = 'CenterV' }
+        Top = 'Top',
+        Bottom = 'Bottom',
+        Center = 'CenterV'
     }
 }
 

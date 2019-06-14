@@ -46,35 +46,35 @@ local nilAttribute = {}
 local LookupAttributeValue = require('AttributeLookup')
 
 PrimitiveType = {
-    None = { Type = 'PrimitiveType', Value = 0, Name = 'None' },
-    Point = { Type = 'PrimitiveType', Value = 1, Name = 'Point' },
-    MultiPoint = { Type = 'PrimitiveType', Value = 2, Name = 'MultiPoint' },
-    Curve = { Type = 'PrimitiveType', Value = 3, Name = 'Curve' },
-    Surface = { Type = 'PrimitiveType', Value = 4, Name = 'Surface' }
+    None = 'None',
+    Point = 'Point',
+    MultiPoint = 'MultiPoint',
+    Curve = 'Curve',
+    Surface = 'Surface'
 }
 
 SpatialType = {
-    Point = { Type = 'SpatialType', Value = 1, Name = 'Point' },
-    MultiPoint = { Type = 'SpatialType', Value = 2, Name = 'MultiPoint' },
-    Curve = { Type = 'SpatialType', Value = 3, Name = 'Curve' },
-    CompositeCurve = { Type = 'SpatialType', Value = 4, Name = 'CompositeCurve' },
-    Surface = { Type = 'SpatialType', Value = 5, Name = 'Surface' }
+    Point = 'Point',
+    MultiPoint = 'MultiPoint',
+    Curve = 'Curve',
+    CompositeCurve = 'CompositeCurve',
+    Surface = 'Surface'
 }
 
 Orientation = {
-    Forward = { Type = 'Orientation', Value = 1, Name = 'Forward' },
-    Reverse = { Type = 'Orientation', Value = 2, Name = 'Reverse' }
+    Forward = 'Forward',
+    Reverse = 'Reverse'
 }
 
 Interpolation = {
-    None = { Type = 'Interpolation', value = 0, Name = 'None' },
-    Linear = { Type = 'Interpolation', value = 1, Name = 'Linear' },
-    Geodesic = { Type = 'Interpolation', value = 2, Name = 'Geodesic' },
-    Arc3Points = { Type = 'Interpolation', value = 3, Name = 'Arc3Points' },
-    Loxodromic = { Type = 'Interpolation', value = 4, Name = 'Loxodromic' },
-    Elliptical = { Type = 'Interpolation', value = 5, Name = 'Elliptical' },
-    Conic = { Type = 'Interpolation', value = 6, Name = 'Conic' },
-    CircularArcCenterPointWithRadius = { Type = 'Interpolation', value = 7, Name = 'CircularArcCenterPointWithRadius' }
+    None = 'None',
+    Linear = 'Linear',
+    Geodesic = 'Geodesic',
+    Arc3Points = 'Arc3Points',
+    Loxodromic = 'Loxodromic',
+    Elliptical = 'Elliptical',
+    Conic = 'Conic',
+    CircularArcCenterPointWithRadius = 'CircularArcCenterPointWithRadius'
 }
 
 local dummySpatialAssociation
@@ -194,7 +194,7 @@ function CreateFeature(featureID, featureCode)
         if sa ~= nil then
             self['Spatial'] = sa.Spatial
 
-            self[sa.SpatialType.Name] = self['Spatial']
+            self[sa.SpatialType] = self['Spatial']
 
             return self['Spatial']
         end
