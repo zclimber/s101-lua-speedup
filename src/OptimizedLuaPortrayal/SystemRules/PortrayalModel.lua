@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 This file contains the global functions that define the Lua Portrayal Model classes.
 These functions are intended to be called by the portrayal rules.
 --]]
@@ -253,262 +253,380 @@ local function ConvertSpatials(spatials)
     return spatials
 end
 
-function CreateFeaturePortrayal(featureReference)
-    CheckType(featureReference, 'string')
+function featurePortrayalProto:SetDisplayParameters(viewingGroup, drawingPriority, scaleMinimum, scaleMaximum, displayPlane)
+    CheckSelf(self, featurePortrayalProto.Type)
+    local overrides = PortrayalModel.CreateDisplayParameters(viewingGroup, drawingPriority, scaleMinimum, scaleMaximum, displayPlane)
 
-    local featurePortrayal = {
-        Type = 'FeaturePortrayal',
-        FeatureReference = featureReference,
-        DrawingInstructions = CreateDrawingInstructions(),
-        DisplayParameters = PortrayalModel.CreateDisplayParameters()
-    }
+    self.DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, overrides)
+end
 
-    function featurePortrayal:SetDisplayParameters(viewingGroup, drawingPriority, scaleMinimum, scaleMaximum, displayPlane)
-        CheckSelf(self, featurePortrayal.Type)
-        local overrides = PortrayalModel.CreateDisplayParameters(viewingGroup, drawingPriority, scaleMinimum, scaleMaximum, displayPlane)
+function featurePortrayalProto:GetInstructionCount()
+    return self.DrawingInstructionsCount
+end
 
-        self.DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, overrides)
-    end
+function featurePortrayalProto:IsDefaultDisplayParameters()
+    CheckSelf(self, featurePortrayalProto.Type)
 
-    function featurePortrayal:IsDefaultDisplayParameters()
-        CheckSelf(self, featurePortrayal.Type)
+    return not (self.DisplayParameters.ViewingGroup or
+            self.DisplayParameters.DrawingPriority or
+            self.DisplayParameters.ScaleMinimum or
+            self.DisplayParameters.ScaleMaximum or
+            self.DisplayParameters.DisplayPlane)
+end
 
-        return not (self.DisplayParameters.ViewingGroup or
-                self.DisplayParameters.DrawingPriority or
-                self.DisplayParameters.ScaleMinimum or
-                self.DisplayParameters.ScaleMaximum or
-                self.DisplayParameters.DisplayPlane)
-    end
+-- Null Instruction
 
-    -- Null Instruction
+function featurePortrayalProto:AddNullInstruction()
+    CheckSelf(self, featurePortrayalProto.Type)
 
-    function featurePortrayal:AddNullInstruction()
-        CheckSelf(self, featurePortrayal.Type)
+    local instruction = self.DrawingInstructions[self.DrawingInstructionsCount]
+    instruction.Type = 'NullInstruction'
+    instruction.FeatureReference = self.FeatureReference
+    --instruction.DisplayParameters = self.DisplayParameters
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
 
-        local instruction = {
-            Type = 'NullInstruction',
-            FeatureReference = featureReference,
-            DisplayParameters = self.DisplayParameters
-        }
-        self.DrawingInstructions:Add(instruction)
+-- Point instruction
 
-    end
+function featurePortrayalProto:AddPointInstruction(symbol, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
 
-    -- Point instruction
+    spatials = ConvertSpatials(spatials)
 
-    function featurePortrayal:AddPointInstruction(symbol, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
+    CheckTypeOrNil(spatials, 'array+:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
 
-        if type(symbol) == 'string' then
-            symbol = Symbol.CreateSymbol(symbol)
-        end
+    --local instruction = {
+    --    Type = 'PointInstruction',
+    --    FeatureReference = featureReference,
+    --    Symbol = symbol,
+    --    Spatials = spatials,
+    --    DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
+    --}
+    local instruction = self.DrawingInstructions[self.DrawingInstructionsCount]
+    instruction.Type = 'PointInstruction'
+    instruction.FeatureReference = self.FeatureReference
 
-        spatials = ConvertSpatials(spatials)
-
+    if type(symbol) == 'string' then
+        instruction.Symbol.Reference = symbol
+        instruction.Symbol.Rotation = 0
+        instruction.Symbol.ScaleFactor = 1
+        instruction.Symbol.Offset.X = 0
+        instruction.Symbol.Offset.Y = 0
+        instruction.Symbol.RotationCRS = Graphics.CRSType.Portrayal
+    else
         CheckType(symbol, 'Symbol')
-        CheckTypeOrNil(spatials, 'array+:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'PointInstruction',
-            FeatureReference = featureReference,
-            Symbol = symbol,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
-    end
-
-    -- Line instruction
-
-    function featurePortrayal:AddLineInstruction(lineStyle, spatials, displayParametersOverride, suppression)
-        CheckSelf(self, featurePortrayal.Type)
-
-        if type(lineStyle) == 'string' then
-            lineStyle = LineStyles.CreateLineStyleReference(lineStyle)
+        instruction.Symbol.Reference = symbol.Reference
+        instruction.Symbol.Rotation = symbol.Rotation
+        instruction.Symbol.ScaleFactor = symbol.ScaleFactor
+        instruction.Symbol.RotationCRS = symbol.RotationCRS
+        instruction.Symbol.Offset.X = symbol.Offset.X
+        instruction.Symbol.Offset.Y = symbol.Offset.Y
+        if symbol.PlacementMode then
+            instruction.Symbol.PlacementMode = symbol.PlacementMode.PlacementMode.Name
         end
-
-        spatials = ConvertSpatials(spatials)
-
-        suppression = suppression or true
-
-        CheckTypeOneOf(lineStyle, 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
-        CheckTypeOrNil(spatials, 'array+:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-        CheckType(suppression, 'boolean')
-
-        local instruction = {
-            Type = 'LineInstruction',
-            FeatureReference = featureReference,
-            LineStyle = lineStyle,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride),
-            Suppression = suppression
-        }
-        self.DrawingInstructions:Add(instruction)
     end
 
-    -- Area instruction
+    local selfDisplayParameters = self.DisplayParameters
+    if displayParametersOverride then
+        instruction.DisplayParameters.DisplayPlane = displayParametersOverride.DisplayPlane or selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = displayParametersOverride.DrawingPriority or selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = displayParametersOverride.ViewingGroup or selfDisplayParameters.ViewingGroup
+    else
+        instruction.DisplayParameters.DisplayPlane = selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = selfDisplayParameters.ViewingGroup
+    end
 
-    function featurePortrayal:AddAreaInstruction(areaFill, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
 
-        if type(areaFill) == 'string' then
-            areaFill = AreaFills.CreateAreaFillReference(areaFill)
+-- Line instruction
+
+local emptyTable = {}
+
+function featurePortrayalProto:AddLineInstruction(lineStyle, spatials, displayParametersOverride, suppression)
+    CheckSelf(self, featurePortrayalProto.Type)
+
+    if type(lineStyle) == 'string' then
+        lineStyle = LineStyles.CreateLineStyleReference(lineStyle)
+    end
+
+    spatials = ConvertSpatials(spatials)
+
+    suppression = suppression or true
+
+    CheckTypeOneOf(lineStyle, 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
+    CheckTypeOrNil(spatials, 'array+:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
+    CheckType(suppression, 'boolean')
+
+    --local instruction = {
+    --    Type = 'LineInstruction',
+    --    FeatureReference = featureReference,
+    --    LineStyle = lineStyle,
+    --    Spatials = spatials,
+    --    DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride),
+    --    Suppression = suppression
+    --}
+    --self.DrawingInstructions[self.DrawingInstructionsCount] = instruction
+    --self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+
+    local instruction = self.DrawingInstructions[self.DrawingInstructionsCount]
+    instruction.Type = 'LineInstruction'
+    instruction.FeatureReference = self.FeatureReference
+    instruction.LineStyle.Type = lineStyle.Type
+    instruction.Suppression = suppression
+    if lineStyle.Type == 'LineStyleReference' then
+        instruction.LineStyle.Reference = lineStyle.Reference
+    elseif lineStyle.Type == 'LineStyle' then
+        local ls = instruction.LineStyle
+        ls.CapStyle = lineStyle.CapStyle
+        ls.JoinStyle = lineStyle.JoinStyle
+        ls.Offset = lineStyle.Offset
+        ls.IntervalLength = lineStyle.IntervalLength or 0
+        ls.DashesCount = #(lineStyle.Dashes or emptyTable)
+        for i = 1, ls.DashesCount do
+            ls.Dashes[i - 1].Start = lineStyle.Dashes[i].Start
         end
-
-        spatials = ConvertSpatials(spatials)
-
-        CheckTypeOneOf(areaFill, 'AreaFillReference', 'ColorFill', 'SymbolFill', 'HatchFill', 'PixmapFill')
-        CheckTypeOrNil(spatials, 'array+:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'AreaInstruction',
-            FeatureReference = featureReference,
-            AreaFill = areaFill,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
+        ls.SymbolsCount = #(lineStyle.Symbols or emptyTable)
+        for i = 1, ls.SymbolsCount do
+            ls.Symbols[i - 1].Reference = lineStyle.Symbols[i].Reference
+            ls.Symbols[i - 1].Rotation = lineStyle.Symbols[i].Rotation
+            ls.Symbols[i - 1].ScaleFactor = lineStyle.Symbols[i].ScaleFactor
+            ls.Symbols[i - 1].CRSType = lineStyle.Symbols[i].CRSType.Name
+        end
+        ls.Pen.Width = lineStyle.Pen.Width
+        ls.Pen.Color.Token = lineStyle.Pen.Color.Token
+        ls.Pen.Color.Transparency = lineStyle.Pen.Color.Transparency
     end
 
-    -- Text instruction
+    local selfDisplayParameters = self.DisplayParameters
+    if displayParametersOverride then
+        instruction.DisplayParameters.DisplayPlane = displayParametersOverride.DisplayPlane or selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = displayParametersOverride.DrawingPriority or selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = displayParametersOverride.ViewingGroup or selfDisplayParameters.ViewingGroup
+    else
+        instruction.DisplayParameters.DisplayPlane = selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = selfDisplayParameters.ViewingGroup
+    end
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+    --self:AddNullInstruction()
+end
 
-    function featurePortrayal:AddTextInstruction(text, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
+-- Area instruction
 
-        spatials = ConvertSpatials(spatials)
+AF = {}
 
+function featurePortrayalProto:AddAreaInstruction(areaFill, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
+
+    if type(areaFill) == 'string' then
+        areaFill = AreaFills.CreateAreaFillReference(areaFill)
+    end
+
+    spatials = ConvertSpatials(spatials)
+
+    CheckTypeOneOf(areaFill, 'AreaFillReference', 'ColorFill', 'SymbolFill', 'HatchFill', 'PixmapFill')
+    CheckTypeOrNil(spatials, 'array+:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
+    --merge(AF, spatials)
+
+    --local instruction = {
+    --    Type = 'AreaInstruction',
+    --    FeatureReference = featureReference,
+    --    AreaFill = areaFill,
+    --    Spatials = spatials,
+    --    DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
+    --}
+    local instruction = self.DrawingInstructions[self.DrawingInstructionsCount]
+    instruction.Type = 'AreaInstruction'
+    instruction.FeatureReference = self.FeatureReference
+    instruction.AreaFill.Type = areaFill.Type
+
+    if areaFill.Type == 'ColorFill' then
+        local c = instruction.AreaFill.Color
+        local cc = areaFill.Color
+        c.Token = cc.Token
+        c.Transparency = cc.Transparency
+    end
+
+    local selfDisplayParameters = self.DisplayParameters
+    if displayParametersOverride then
+        instruction.DisplayParameters.DisplayPlane = displayParametersOverride.DisplayPlane or selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = displayParametersOverride.DrawingPriority or selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = displayParametersOverride.ViewingGroup or selfDisplayParameters.ViewingGroup
+    else
+        instruction.DisplayParameters.DisplayPlane = selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = selfDisplayParameters.ViewingGroup
+    end
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
+
+-- Text instruction
+
+function featurePortrayalProto:AddTextInstruction(text, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
+
+    spatials = ConvertSpatials(spatials)
+
+    CheckTypeOneOf(text, 'TextPoint', 'TextLine')
+    CheckTypeOrNil(spatials, 'array+:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
+
+    local instruction = self.DrawingInstructions[self.DrawingInstructionsCount]
+    instruction.Type = 'TextInstruction'
+    instruction.FeatureReference = self.FeatureReference
+
+    local t = instruction.Text
+    t.Type = text.Type
+    if text.Type == 'TextPoint' then
+        t.Rotation = text.Rotation
+        t.Offset.X = text.Offset.X
+        t.Offset.Y = text.Offset.Y
+        t.AreaPlacement.PlacementMode = text.AreaPlacement.PlacementMode
+        t.VerticalAlignment = text.VerticalAlignment
+        t.HorizontalAlignment = text.HorizontalAlignment
+    end
+    local elem = t.Elements[0]
+    local selem = text.Elements[1]
+    elem.Text = selem.Text
+    elem.BodySize = selem.BodySize
+    elem.VerticalOffset = selem.VerticalOffset
+    elem.Foreground.Token = selem.Foreground.Token
+    elem.Foreground.Transparency = selem.Foreground.Transparency
+
+    local selfDisplayParameters = self.DisplayParameters
+    if displayParametersOverride then
+        instruction.DisplayParameters.DisplayPlane = displayParametersOverride.DisplayPlane or selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = displayParametersOverride.DrawingPriority or selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = displayParametersOverride.ViewingGroup or selfDisplayParameters.ViewingGroup
+    else
+        instruction.DisplayParameters.DisplayPlane = selfDisplayParameters.DisplayPlane
+        instruction.DisplayParameters.DrawingPriority = selfDisplayParameters.DrawingPriority
+        instruction.DisplayParameters.ViewingGroup = selfDisplayParameters.ViewingGroup
+    end
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
+
+-- Coverage Instruction
+
+-- TODO: Implement
+function featurePortrayalProto:AddCoverageInstruction()
+    CheckSelf(self, featurePortrayalProto.Type)
+
+    error('Coverage instructions not implemented', 2)
+end
+
+-- Augmented Geometry Instructions
+
+function featurePortrayalProto:AddAugmentedPoint(position, symbol, crs, text, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
+
+    if type(symbol) == 'string' then
+        symbol = Symbol.CreateSymbol(symbol)
+    end
+
+    crs = crs or Graphics.CRSType.Geographic
+
+    CheckType(position, 'Point')
+    CheckTypeOrNil(symbol, 'Symbol')
+    CheckType(crs, 'CRSType')
+
+    if text ~= nil then
         CheckTypeOneOf(text, 'TextPoint', 'TextLine')
-        CheckTypeOrNil(spatials, 'array+:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'TextInstruction',
-            FeatureReference = featureReference,
-            Text = text,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
     end
 
-    -- Coverage Instruction
+    CheckTypeOrNil(spatials, 'array:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
 
-    -- TODO: Implement
-    function featurePortrayal:AddCoverageInstruction()
-        CheckSelf(self, featurePortrayal.Type)
+    local instruction = {
+        Type = 'AugmentedPoint',
+        FeatureReference = featureReference,
+        Position = position,
+        Symbol = symbol,
+        Crs = crs,
+        Text = text,
+        Spatials = spatials,
+        DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
+    }
+    self.DrawingInstructions[self.DrawingInstructionsCount] = instruction
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
 
-        error('Coverage instructions not implemented', 2)
-    end
+function featurePortrayalProto:AddAugmentedRay(direction, length, lineStyle, crs, text, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
+    CheckType(direction, 'number')
+    CheckType(length, 'number')
+    CheckTypeOneOfOrNil(lineStyle, 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
+    CheckType(crs, 'CRSType')
+    CheckTypeOneOfOrNil(text, 'TextPoint', 'TextLine')
+    CheckTypeOrNil(spatials, 'array:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
 
-    -- Augmented Geometry Instructions
+    local instruction = {
+        Type = 'AugmentedRay',
+        FeatureReference = featureReference,
+        Direction = direction,
+        Length = length,
+        LineStyle = lineStyle,
+        CRS = crs,
+        Text = text,
+        Spatials = spatials,
+        DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
+    }
+    self.DrawingInstructions[self.DrawingInstructionsCount] = instruction
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
 
-    function featurePortrayal:AddAugmentedPoint(position, symbol, crs, text, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
+function featurePortrayalProto:AddAugmentedPath(path, lineStyle, crs, text, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
+    CheckType(path, 'Path')
+    CheckTypeOneOfOrNil(lineStyle, 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
+    CheckType(crs, 'CRSType')
+    CheckTypeOneOfOrNil(text, 'TextPoint', 'TextLine')
+    CheckTypeOrNil(spatials, 'array:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
 
-        if type(symbol) == 'string' then
-            symbol = Symbol.CreateSymbol(symbol)
-        end
+    local instruction = {
+        Type = 'AugmentedPath',
+        FeatureReference = featureReference,
+        Path = path,
+        LineStyle = lineStyle,
+        CRS = crs,
+        Text = text,
+        Spatials = spatials,
+        DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
+    }
+    self.DrawingInstructions[self.DrawingInstructionsCount] = instruction
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
+end
 
-        crs = crs or Graphics.CRSType.Geographic
+function featurePortrayalProto:AddAugmentedArea(areaFill, path, lineStyle, crs, text, spatials, displayParametersOverride)
+    CheckSelf(self, featurePortrayalProto.Type)
+    CheckTypeOneOf(areaFillReference, 'nil', 'AreaFillReference', 'ColorFill', 'SymbolFill', 'HatchFill', 'PixmapFill')
+    CheckType(path, 'path')
+    CheckTypeOneOf(lineStyle, 'nil', 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
+    CheckType(crs, 'CRSType')
+    CheckTypeOneOf(text, 'TextPoint', 'TextLine')
+    CheckTypeOrNil(spatials, 'array:SpatialReference')
+    CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
 
-        CheckType(position, 'Point')
-        CheckTypeOrNil(symbol, 'Symbol')
-        CheckType(crs, 'CRSType')
-
-        if text ~= nil then
-            CheckTypeOneOf(text, 'TextPoint', 'TextLine')
-        end
-
-        CheckTypeOrNil(spatials, 'array:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'AugmentedPoint',
-            FeatureReference = featureReference,
-            Position = position,
-            Symbol = symbol,
-            Crs = crs,
-            Text = text,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
-    end
-
-    function featurePortrayal:AddAugmentedRay(direction, length, lineStyle, crs, text, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
-        CheckType(direction, 'number')
-        CheckType(length, 'number')
-        CheckTypeOneOfOrNil(lineStyle, 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
-        CheckType(crs, 'CRSType')
-        CheckTypeOneOfOrNil(text, 'TextPoint', 'TextLine')
-        CheckTypeOrNil(spatials, 'array:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'AugmentedRay',
-            FeatureReference = featureReference,
-            Direction = direction,
-            Length = length,
-            LineStyle = lineStyle,
-            CRS = crs,
-            Text = text,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
-    end
-
-    function featurePortrayal:AddAugmentedPath(path, lineStyle, crs, text, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
-        CheckType(path, 'Path')
-        CheckTypeOneOfOrNil(lineStyle, 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
-        CheckType(crs, 'CRSType')
-        CheckTypeOneOfOrNil(text, 'TextPoint', 'TextLine')
-        CheckTypeOrNil(spatials, 'array:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'AugmentedPath',
-            FeatureReference = featureReference,
-            Path = path,
-            LineStyle = lineStyle,
-            CRS = crs,
-            Text = text,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
-    end
-
-    function featurePortrayal:AddAugmentedArea(areaFill, path, lineStyle, crs, text, spatials, displayParametersOverride)
-        CheckSelf(self, featurePortrayal.Type)
-        CheckTypeOneOf(areaFillReference, 'nil', 'AreaFillReference', 'ColorFill', 'SymbolFill', 'HatchFill', 'PixmapFill')
-        CheckType(path, 'path')
-        CheckTypeOneOf(lineStyle, 'nil', 'LineStyleReference', 'LineStyle', 'CompositeLineStyle')
-        CheckType(crs, 'CRSType')
-        CheckTypeOneOf(text, 'TextPoint', 'TextLine')
-        CheckTypeOrNil(spatials, 'array:SpatialReference')
-        CheckTypeOrNil(displayParametersOverride, 'DisplayParameters')
-
-        local instruction = {
-            Type = 'AugmentedArea',
-            FeatureReference = featureReference,
-            AreaFill = areaFill,
-            Path = path,
-            LineStyle = lineStyle,
-            Crs = crs,
-            Text = text,
-            Spatials = spatials,
-            DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
-        }
-        self.DrawingInstructions:Add(instruction)
-    end
-
-    return featurePortrayal
+    local instruction = {
+        Type = 'AugmentedArea',
+        FeatureReference = featureReference,
+        AreaFill = areaFill,
+        Path = path,
+        LineStyle = lineStyle,
+        Crs = crs,
+        Text = text,
+        Spatials = spatials,
+        DisplayParameters = GetMergedDisplayParameters(self.DisplayParameters, displayParametersOverride)
+    }
+    self.DrawingInstructions[self.DrawingInstructionsCount] = instruction
+    self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
 end
 
 function CreateDrawingInstructions(featurePortrayal)

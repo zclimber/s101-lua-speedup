@@ -1,4 +1,4 @@
-﻿require 'S100Scripting'
+require 'S100Scripting'
 require 'PortrayalModel'
 require 'PortrayalAPI'
 require 'Default'
@@ -79,9 +79,9 @@ function portrayal_main(datasetID, start, step)
                     require(feature.Code)
                     Portrayals[feature.Code](feature, featurePortrayal, contextParameters)
 
-                    if #featurePortrayal.DrawingInstructions == 0 then
+                    if featurePortrayal:GetInstructionCount() == 0 then
                         error('No drawing instructions were emitted for feature ' .. feature.ID)
-                    elseif featurePortrayal:IsDefaultDisplayParameters() and featurePortrayal.DrawingInstructions[1].Type ~= 'NullInstruction' then
+                    elseif featurePortrayal:IsDefaultDisplayParameters() and featurePortrayal.DrawingInstructions[0].Type ~= 'NullInstruction' then
                         error('SetDisplayParameters() not called by portrayal rules for feature ' .. feature.ID)
                     end
                 end)
@@ -100,19 +100,10 @@ function portrayal_main(datasetID, start, step)
 
                 local cDrawingInstructionsCount = #(featurePortrayal.DrawingInstructions)
 
-                local cDrawingInstructions
+                local cDrawingInstructionsCount = featurePortrayal:GetInstructionCount()
 
-                status, err = pcall(function()
-                    cDrawingInstructions = ffi.new('struct DrawingInstruction[?]',
-                            cDrawingInstructionsCount, featurePortrayal.DrawingInstructions)
-                end)
-
-                if not status then
-                    print(err)
-                else
-                    if not ffi.C.LuaHost_display(feature.ID, cDrawingInstructions, cDrawingInstructionsCount) then
-                        break
-                    end
+                if not ffi.C.LuaHost_display(feature.ID, featurePortrayal.DrawingInstructions, cDrawingInstructionsCount) then
+                    break
                 end
             else
                 cachedFeatures = cachedFeatures + 1
