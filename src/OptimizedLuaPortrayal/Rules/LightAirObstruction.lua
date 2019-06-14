@@ -10,5 +10,5 @@ require 'LightFlareAndDescription'
 function Portrayals.LightAirObstruction(feature, featurePortrayal, contextParameters)
     featurePortrayal:SetDisplayParameters(27070, 8, nil, nil, 'OverRADAR')
 
-    LightFlareAndDescription(feature, featurePortrayal, contextParameters, 6)
+    Portrayals.LightFlareAndDescription(feature, featurePortrayal, contextParameters, 6)
 end
