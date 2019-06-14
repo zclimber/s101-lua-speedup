@@ -613,13 +613,26 @@ void addFeaturesFromRoot(XMLElement *root, TestObjectDrawer &drawer, set<string>
         std::multimap<string, XMLElement *> elements = getElementsMap(f);
         try {
             int clazz = f->FirstChildElement("Class")->IntText(-1);
+
+            const auto &name = drawer.GetCatalogue().feats_by_id.find(clazz)->second.name;
+            if (name == "Sounding" || name == "LightAllAround" || name == "LightSectored" || name == "TwoWayRoute"
+                || name == "TidalStreamFloodEbb")
+                continue;
+
             if (elements.count("fe2sp_ref") > 1) {
                 std::cerr << "multielement " << f->GetLineNum() << "\n";
             }
-            SpatialReference spatial;
+            SpatialReference spatial(-1, 1, 110);
             if (f->FirstChildElement("fe2sp_ref") != nullptr)
                 spatial = readSpatial(f->FirstChildElement("fe2sp_ref"), drawer);
             ComplexAttr core = readComplexAttr(elements, drawer.GetCatalogue());
+
+            if (spatial.SpatialID == -1) {
+                if (name == "Obstruction" || name == "LandArea" || name == "ShorelineConstruction" ||
+                    name == "AdministrationArea"
+                    || name == "UnsurveyedArea")
+                    continue;
+            }
 
             ComplexAttr fname;
             fname.string_attrs.insert({"name", raw_clazz[clazz]});
