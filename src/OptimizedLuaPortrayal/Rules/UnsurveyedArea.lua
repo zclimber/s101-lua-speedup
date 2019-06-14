@@ -12,7 +12,7 @@ function Portrayals.UnsurveyedArea(feature, featurePortrayal, contextParameters)
         featurePortrayal:AddAreaInstruction('NODATA03')
         featurePortrayal:AddLineInstruction(LineStyles.CreateStandardLineStyleSolid(0.64, 'CHGRD'))
     else
-        error('Invalid primitive type or mariner settings passed to portrayal')
+        featurePortrayal:error('Invalid primitive type or mariner settings passed to portrayal of UnsurveyedArea')
     end
 
     if featurePortrayal:GetInstructionCount() == 0 then

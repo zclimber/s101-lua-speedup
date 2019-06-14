@@ -360,6 +360,10 @@ end
 
 local emptyTable = {}
 
+function featurePortrayalProto:error(string)
+    self.Error = string
+end
+
 function featurePortrayalProto:AddLineInstruction(lineStyle, spatials, displayParametersOverride, suppression)
     CheckSelf(self, featurePortrayalProto.Type)
 

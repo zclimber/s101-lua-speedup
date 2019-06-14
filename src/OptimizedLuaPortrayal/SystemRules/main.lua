@@ -65,9 +65,9 @@ function portrayal_main(datasetID, start, step)
         Portrayals[feature.Code](feature, featurePortrayal, contextParameters)
 
         if featurePortrayal:GetInstructionCount() == 0 then
-            error('No drawing instructions were emitted for feature ' .. feature.ID)
+            featurePortrayal:error('No drawing instructions were emitted for feature ' .. feature.ID)
         elseif featurePortrayal:IsDefaultDisplayParameters() and featurePortrayal.DrawingInstructions[0].Type ~= 0 then
-            error('SetDisplayParameters() not called by portrayal rules for feature ' .. feature.ID)
+            featurePortrayal:error('SetDisplayParameters() not called by portrayal rules for feature ' .. feature.ID)
         end
     end
 
@@ -87,10 +87,10 @@ function portrayal_main(datasetID, start, step)
             if contextParameters:SavedObservedParametersDiffer(featurePortrayalItem) or true then
                 contextParameters:Reset()
 
-                local status, err = pcall(portrayalCall, feature, featurePortrayal, contextParameters)
+                portrayalCall(feature, featurePortrayal, contextParameters)
 
-                if not status then
-                    Debug.Trace('Error: ' .. err .. '.  Default symbology for ' .. feature.Code .. ' ID=' .. feature.ID .. ' returned.')
+                if featurePortrayal.Error then
+                    Debug.Trace('Error: ' .. featurePortrayal.Error .. '.  Default symbology for ' .. feature.Code .. ' ID=' .. feature.ID .. ' returned.')
 
                     -- Clear any drawing instructions created up to this point.
                     featurePortrayal = featurePortrayalItem:NewFeaturePortrayal()
