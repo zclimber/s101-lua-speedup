@@ -42,8 +42,7 @@ function PortrayalModel.CreatePortrayalContext(datasetID)
     for i = 0, featureCount - 1 do
         local clazz = names[featureArray[i].clazz]
         local primitive = PrimitiveType[featureArray[i].primitive]
-        local feature = CreateFeature(featureArray[i].id, clazz, primitive, featureArray[i].attr_node_ptr,
-                featureArray[i].SpatialAssociation)
+        local feature = CreateFeature(featureArray[i].id, clazz)
         feature.PrimitiveType = primitive
         feature.attr_node_ptr = featureArray[i].attr_node_ptr
         local assocC = featureArray[i].SpatialAssociation

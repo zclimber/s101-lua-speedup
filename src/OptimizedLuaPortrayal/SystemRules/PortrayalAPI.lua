@@ -137,7 +137,7 @@ function CreateFeature(featureID, featureCode)
         return feature
     end
 
-    feature = { Type = 'Feature', ID = featureID, Code = featureCode }
+    feature = { Type = 'Feature', ID = featureID, Code = featureCode, nils = {} }
 
     featureCache[featureID] = feature
 

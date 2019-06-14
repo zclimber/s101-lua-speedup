@@ -865,7 +865,7 @@ local stubMeta
 
 local function makeComplexStubMaker(attrname)
     return function(ptr)
-        local stub = { attr_node_ptr = ptr, Code = attrname }
+        local stub = { attr_node_ptr = ptr, Code = attrname, nils = {} }
         setmetatable(stub, stubMeta)
         return stub
     end
@@ -1011,18 +1011,22 @@ stubMeta = {
             k = k:sub(2)
         end
 
+        if rawget(t.nils, k) then
+            return nil
+        end
+
         if not functions[k] then
             error('Unknown attribute ' .. k .. ' ' .. t.ID)
         end
 
         local value = functions[k](t)
 
-        --        if type(value) == 'nil' and not nilIfMissing then
-        --            error('Missing attribute ' .. k .. ' for object of type ' .. t.Code)
-        --        end
-
-        t[k] = value
-        t[k1] = value
+        if value == nil then
+            rawset(t.nils, k, true)
+        else
+            rawset(t, k, value)
+            rawset(t, k1, value)
+        end
 
         return value
     end
