@@ -6,15 +6,15 @@ function TidalStreamFloodEbb(feature, featurePortrayal, contextParameters)
         if feature.categoryOfTidalStream == 1 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('FLDSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 2 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('EBBSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 3 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('CURENT01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         else
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction('CURDEF01')
@@ -23,15 +23,15 @@ function TidalStreamFloodEbb(feature, featurePortrayal, contextParameters)
         if feature.categoryOfTidalStream == 1 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('FLDSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 2 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('EBBSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 3 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('CURENT01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         else
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'OverRADAR')
             featurePortrayal:AddPointInstruction('CURDEF01')
@@ -40,15 +40,15 @@ function TidalStreamFloodEbb(feature, featurePortrayal, contextParameters)
         if feature.categoryOfTidalStream == 1 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('FLDSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 2 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('EBBSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 3 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('CURENT01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         else
             featurePortrayal:SetDisplayParameters(33060, 2, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('CURDEF01')
@@ -58,15 +58,15 @@ function TidalStreamFloodEbb(feature, featurePortrayal, contextParameters)
         if feature.categoryOfTidalStream == 1 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('FLDSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 2 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('EBBSTR01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         elseif feature.categoryOfTidalStream == 3 and feature.orientation and feature.orientation.orientationValue then
             featurePortrayal:SetDisplayParameters(33060, 4, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction(Symbol.CreateSymbol('CURENT01', feature.orientation.orientationValue, Graphics.CRSType.Geographic))
-            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.currentVelocity.velocityMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
+            featurePortrayal:AddTextInstruction(Text.CreateTextPoint(Text.CreateTextElement(string.format('%4.1f kn', feature.speed.speedMaximum), defaultFontCharacteristics, 10, 'CHBLK'), Graphics.CreateVector(3.51, 3.51)), nil, PortrayalModel.CreateDisplayParameters(30, 8))
         else
             featurePortrayal:SetDisplayParameters(33060, 2, nil, nil, 'UnderRADAR')
             featurePortrayal:AddPointInstruction('CURDEF01')

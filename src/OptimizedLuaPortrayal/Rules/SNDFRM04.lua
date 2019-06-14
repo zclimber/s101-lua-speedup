@@ -30,7 +30,7 @@ function SNDFRM04(feature, featurePortrayal, contextParameters, soundingPoint, d
         addSymbol(symbolPrefix .. 'B1')
     end
 
-    if feature.Code == 'DepthNoBottomFound' or contains(feature.qualityOfSoundingMeasurement, { 3, 4, 5, 8, 9 }) or contains(feature.status, { 18 }) then
+    if feature.Code == 'DepthNoBottomFound' or contains(feature.qualityOfVerticalMeasurement, { 3, 4, 5, 8, 9 }) or contains(feature.status, { 18 }) then
         addSymbol(symbolPrefix .. 'C2')
     else
         local spatialQuality = feature.Spatial:GetInformationAssociation('spatialQuality')
