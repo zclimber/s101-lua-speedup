@@ -1,4 +1,4 @@
---[[
+﻿--[[
 This file contains the global functions that define the Lua Portrayal Model classes.
 These functions are intended to be called by the portrayal rules.
 --]]
@@ -108,29 +108,8 @@ function PortrayalModel.CreateSpatialReference(reference, forward)
     }
 end
 
-function ObservedContextParametersChanged(contextParameters, featurePortrayalItem)
-    local cp1 = featurePortrayalItem.InUseContextParameters
-
-    if not cp1 then
-        return true
-    end
-
-    -- Grab as table so we don't inadvertently observe all paramters.
-    local cp2 = contextParameters._asTable
-
-    for cp, _ in pairs(featurePortrayalItem.ObservedContextParameters) do
-        if cp ~= "_observed" then
-            if cp1[cp] ~= cp2[cp] then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 function CreateContextParameters()
-    local contextParameters = {
+    local contextParametersDefaults = {
         SIMPLIFIED_POINTS = true,
         PLAIN_BOUNDARIES = true,
         TWO_SHADES = true,
@@ -158,57 +137,84 @@ function CreateContextParameters()
         _Testing_SoundingsAsText_SizeContourLabels = 8,
         _Testing_SoundingsAsText_Font = 'droid',
         _Testing_XSLT_COMPARISON_MODE = false,
-        _Testing_Portrayal_RuntimeChecks = false,
-
-        _observed = {},
+        _Testing_Portrayal_RuntimeChecks = false
     }
+
+    local bit = require('bit')
+    local contextParametersArray = {}
+    local observeLookupTable = {}
+    local versionCompares = {}
+    do
+        local bt = 1
+        for k in pairs(contextParametersDefaults) do
+            observeLookupTable[k] = bt
+            bt = bt * 2
+        end
+    end
+    local version = 0
+    local observed = 0
 
     local ppMetaTable = {
         __index = function(t, k)
-            if k == '_asTable' then
-                local cp = {}
+            local r = contextParametersArray[version][k]
 
-                for k, v in pairs(contextParameters) do
-                    cp[k] = v
-                end
-
-                return cp
-            else
-                local r = contextParameters[k]
-
-                if r == nil then
-                    error('Invalid mariner setting "' .. tostring(k) .. '"', 2)
-                end
-
-                contextParameters._observed[k] = true
-
-                --Debug.Trace('Portrayal paramter "' .. k .. '" observed.')
-
-                return r;
-            end
-        end,
-
-        __newindex = function(t, k, v)
-            if contextParameters[k] == nil then
-                error('Attempt to set invalid portrayal paramter "' .. tostring(k) .. '"', 2)
+            if r == nil then
+                error('Invalid mariner setting "' .. tostring(k) .. '"', 2)
             end
 
-            contextParameters[k] = v
+            observed = bit.bor(observed, observeLookupTable[k])
 
-            if type(v) == 'boolean' then
-                -- Cannot concatenate booleans
-                if v then
-                    Debug.Trace('Setting portrayal paramter: ' .. k .. ' = true')
-                else
-                    Debug.Trace('Setting portrayal paramter: ' .. k .. ' = false')
-                end
-            elseif type(v) ~= 'table' then
-                Debug.Trace('Setting portrayal paramter: ' .. k .. ' = ' .. v .. '')
-            end
+            --Debug.Trace('Portrayal paramter "' .. k .. '" observed.')
+
+            return r;
         end
     }
 
     local ppProxy = { Type = 'ContextParametersProxy' }
+    function ppProxy:Reset()
+        observed = 0
+    end
+    function ppProxy:SetNewParameters(parameters)
+        local function setContextParam(to, from, key)
+            local value = from[key]
+            to[key] = value
+        end
+
+        version = version + 1
+        versionCompares = {}
+        local newContextParameters = {}
+        for k, v in pairs(contextParametersDefaults) do
+            newContextParameters[k] = v
+            pcall(setContextParam, newContextParameters, parameters, k)
+        end
+        contextParametersArray[version] = newContextParameters
+    end
+    function ppProxy:SaveObservedToTable(table)
+        table.ObservedContextParameters = observed
+        table.ObservedVersion = version
+    end
+    function ppProxy:SavedObservedParametersDiffer(table)
+        local observedVersion = table.ObservedVersion
+        local observedContextParameters = table.ObservedContextParameters
+        if (observedVersion == nil) or (observedContextParameters == nil) then
+            return true
+        end
+
+        local compare = versionCompares[observedVersion]
+        if not compare then
+            compare = 0
+            local observedParameters = contextParametersArray[observedVersion]
+            local currentParameters = contextParametersArray[version]
+            for k, v in pairs(observeLookupTable) do
+                if currentParameters[k] ~= observedParameters[k] then
+                    compare = bit.bor(compare, v)
+                end
+            end
+            versionCompares[observedVersion] = compare
+        end
+
+        return bit.band(observedContextParameters, compare) ~= 0
+    end
 
     setmetatable(ppProxy, ppMetaTable)
 

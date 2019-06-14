@@ -27,13 +27,7 @@ function UpdatePortrayalContextParameters(datasetID)
     local cContext = ffi.new("struct CContext", context)
 
     ffi.C.LuaHost_getDatasetContext(cContext)
-
-    for k in pairs(context._asTable) do
-        pcall(function()
-            context[k] = cContext[k]
-        end)
-    end
-    --context:SetNewParameters(cContext)
+    context:SetNewParameters(cContext)
 end
 
 -- Called by host to free up memory if it's determined a dataset may not be needed immediately.

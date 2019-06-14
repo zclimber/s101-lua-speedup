@@ -1,4 +1,4 @@
-require 'S100Scripting'
+﻿require 'S100Scripting'
 require 'PortrayalModel'
 require 'PortrayalAPI'
 require 'Default'
@@ -69,8 +69,8 @@ function portrayal_main(datasetID, start, step)
 
             local featurePortrayal = featurePortrayalItem:NewFeaturePortrayal()
 
-            if ObservedContextParametersChanged(contextParameters, featurePortrayalItem) or true then
-                contextParameters._observed = {}
+            if contextParameters:SavedObservedParametersDiffer(featurePortrayalItem) or true then
+                contextParameters:Reset()
 
                 local status, err = pcall(function()
                     featurePortrayal.DisplayParameters.ScaleMinimum = feature['!scaleMinimum']
@@ -95,8 +95,7 @@ function portrayal_main(datasetID, start, step)
                     Portrayals.Default(feature, featurePortrayal, contextParameters)
                 end
 
-                featurePortrayalItem.ObservedContextParameters = contextParameters._observed
-                featurePortrayalItem.InUseContextParameters = contextParameters._asTable
+                contextParameters:SaveObservedToTable(featurePortrayalItem)
 
                 local cDrawingInstructionsCount = featurePortrayal:GetInstructionCount()
 
