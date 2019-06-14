@@ -3322,12 +3322,12 @@ function DrawFunctions.Bridge(feature, context, object_drawer)
             param.m_SymbolParam = { 58, -2.16, -2.15 };
             object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawSymbol, feature.id);
             do
-                local text = string.format("%s%d%s", "clr cl ", feature["verticalClearanceValue"], "")
+                local text = string.format("%s%d%s", "clr cl ", feature.verticalClearanceFixed["verticalClearanceValue"], "")
                 param.m_TextParam = { text, "sans", 76, 91, 99, 255, 10, 1, 1, 3.510000, 0.000000 };
                 object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawText, feature.id);
             end
             do
-                local text = string.format("%s%d%s", "clr op ", feature["verticalClearanceValue"], "")
+                local text = string.format("%s%d%s", "clr op ", feature.verticalClearanceFixed["verticalClearanceValue"], "")
                 param.m_TextParam = { text, "sans", 76, 91, 99, 255, 10, 1, 1, 3.510000, -3.510000 };
                 object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawText, feature.id);
             end
@@ -3340,7 +3340,7 @@ function DrawFunctions.Bridge(feature, context, object_drawer)
                 object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawText, feature.id);
             end
             do
-                local text = string.format("%s%d%s", "clr ", feature["verticalClearanceValue"], "")
+                local text = string.format("%s%d%s", "clr ", feature.verticalClearanceFixed["verticalClearanceValue"], "")
                 param.m_TextParam = { text, "sans", 76, 91, 99, 255, 10, 1, 1, 3.510000, -3.510000 };
                 object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawText, feature.id);
             end
@@ -7444,7 +7444,7 @@ function DrawFunctions.Conveyor(feature, context, object_drawer)
             param.m_SymbolParam = { 269, -3.2, -3.21 };
             object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawSymbol, feature.id);
             do
-                local text = string.format("%s%d%s", "clr ", feature["verticalClearanceValue"], "")
+                local text = string.format("%s%d%s", "clr ", feature.verticalClearanceFixed["verticalClearanceValue"], "")
                 param.m_TextParam = { text, "sans", 76, 91, 99, 255, 10, 1, 1, 3.510000, 0.000000 };
                 object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawText, feature.id);
             end
@@ -7452,7 +7452,7 @@ function DrawFunctions.Conveyor(feature, context, object_drawer)
             object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawSimpleLine, feature.id);
         elseif (feature.Primitive == "Surface") then
             do
-                local text = string.format("%s%d%s", "clr ", feature["verticalClearanceValue"], "")
+                local text = string.format("%s%d%s", "clr ", feature.verticalClearanceFixed["verticalClearanceValue"], "")
                 param.m_TextParam = { text, "sans", 76, 91, 99, 255, 10, 1, 1, 3.510000, 0.000000 };
                 object_drawer:AddFunction(24, 12210, param, object_drawer.idDrawText, feature.id);
             end
