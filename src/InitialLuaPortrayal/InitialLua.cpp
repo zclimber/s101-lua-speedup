@@ -106,8 +106,15 @@ int Host_Feature_GetAttribute(lua_State *l) { // TODO verbose
             lua_createtable(l, items, 0);
             for (int i = 1; i <= items; i++) {
                 switch (simple_find->second.first->type_id) {
+                    case SimpleAttrDescriptor::Type::Int :
                     case SimpleAttrDescriptor::Type::Enum:
                         lua_pushinteger(l, root->GetIntEnumAttr(name, 1));
+                        break;
+                    case SimpleAttrDescriptor::Type::Real : {
+                        double d;
+                        root->GetRealAttrByID(name, &d);
+                        lua_pushnumber(l, d);
+                    }
                         break;
                     default:
                         lua_err(l, "Requesting array not enum");
