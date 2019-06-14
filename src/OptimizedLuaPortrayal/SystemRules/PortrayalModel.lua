@@ -215,6 +215,14 @@ function CreateContextParameters()
     return ppProxy
 end
 
+local featurePortrayalProto = {
+    Type = 'FeaturePortrayal',
+    FeatureReference = 0,
+    DrawingInstructions = ffi.new("struct DrawingInstruction[250]"),
+    DisplayParameters = PortrayalModel.CreateDisplayParameters(),
+    DrawingInstructionsCount = 0
+}
+
 function CreateFeaturePortrayalItemArray()
     local featurePortrayalItemArray = { Type = 'array:FeaturePortrayalItem' }
 
@@ -224,9 +232,7 @@ function CreateFeaturePortrayalItemArray()
         local featurePortrayalItem = { Type = 'FeaturePortrayalItem', Feature = feature, ObservedContextParameters = {} }
 
         function featurePortrayalItem:NewFeaturePortrayal()
-            self.featurePortrayal = CreateFeaturePortrayal(self.Feature.ID)
-
-            return self.featurePortrayal
+            return featurePortrayalProto:Reset(self.Feature.ID)
         end
 
         self[#self + 1] = featurePortrayalItem
@@ -629,14 +635,14 @@ function featurePortrayalProto:AddAugmentedArea(areaFill, path, lineStyle, crs, 
     self.DrawingInstructionsCount = self.DrawingInstructionsCount + 1
 end
 
-function CreateDrawingInstructions(featurePortrayal)
-    local drawingInstructions = { Type = 'array:DrawingInstruction' }
-
-    function drawingInstructions:Add(instruction)
-        self[#self + 1] = instruction
-    end
-
-    return drawingInstructions;
+function featurePortrayalProto:Reset(featureReference)
+    CheckType(featureReference, 'string')
+    self.DrawingInstructionsCount = 0
+    self.FeatureReference = featureReference
+    self.DisplayParameters = PortrayalModel.CreateDisplayParameters()
+    self.Error = nil
+    SpatialsUsed = 0
+    return self
 end
 
 function GetMergedDisplayParameters(displayParameters, overrideParameters)

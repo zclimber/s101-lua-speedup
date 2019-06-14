@@ -98,8 +98,6 @@ function portrayal_main(datasetID, start, step)
                 featurePortrayalItem.ObservedContextParameters = contextParameters._observed
                 featurePortrayalItem.InUseContextParameters = contextParameters._asTable
 
-                local cDrawingInstructionsCount = #(featurePortrayal.DrawingInstructions)
-
                 local cDrawingInstructionsCount = featurePortrayal:GetInstructionCount()
 
                 if not ffi.C.LuaHost_display(feature.ID, featurePortrayal.DrawingInstructions, cDrawingInstructionsCount) then
