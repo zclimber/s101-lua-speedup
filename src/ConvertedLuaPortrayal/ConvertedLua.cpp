@@ -166,7 +166,7 @@ runMyLuaShort(TestObjectDrawer &drawer, const std::string &prefix, int runs, con
     setupConv(drawer, prefix, features);
 
     int ttl = 0;
-    for (int iter = 0; iter <= runs; iter += 5) {
+    for (int iter = 0; iter < runs; iter += 5) {
         lua_State *L = prepareMyState();
         runPortrayalMainTimes(L, 1);
         timer t("My lua");
@@ -183,7 +183,7 @@ int runMyLuaCold(TestObjectDrawer &drawer, const std::string &prefix, int runs, 
     setupConv(drawer, prefix, features);
 
     int ttl = 0;
-    for (int iter = 0; iter <= runs; iter++) {
+    for (int iter = 0; iter < runs; iter++) {
         lua_State *L = prepareMyState();
         lua_getglobal(L, "getFeatures");
         lua_pushstring(L, "testset");
@@ -208,7 +208,7 @@ int runMyLuaCreate(TestObjectDrawer &drawer, const std::string &prefix, int runs
     setupConv(drawer, prefix, features);
 
     int ttl = 0;
-    for (int iter = 0; iter <= runs; iter++) {
+    for (int iter = 0; iter < runs; iter++) {
         lua_State *L = prepareMyState();
         timer t("My lua");
         lua_getglobal(L, "getFeatures");

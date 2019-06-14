@@ -269,7 +269,7 @@ void setupOpt(TestObjectDrawer &testObjectDrawer, const std::string &prefix, con
 
 void teardownOpt(int runs) {
     for (const auto &x : optTraces) {
-        std::cerr << x.first << ": " << x.second / (std::max(2, runs / 5) + runs) << " times\n";
+        std::cerr << x.first << ": " << x.second << " times\n";
     }
     optTraces.clear();
 
@@ -307,7 +307,7 @@ int runModifiedLuaShort(TestObjectDrawer &testObjectDrawer, const std::string &p
 //    doStringPrintErr(L, "require('mobdebug').start()");
 
     int ttl = 0;
-    for (int iter = 0; iter <= runs; iter += 5) {
+    for (int iter = 0; iter < runs; iter += 5) {
         lua_State *L = prepareModState();
         runPortrayalMainTimes(L, 1);
         timer t("Their lua");
@@ -331,7 +331,7 @@ int runModifiedLuaCold(TestObjectDrawer &testObjectDrawer, const std::string &pr
 //    doStringPrintErr(L, "require('mobdebug').start()");
 
     int ttl = 0;
-    for (int iter = 0; iter <= runs; iter++) {
+    for (int iter = 0; iter < runs; iter++) {
         lua_State *L = prepareModState();
         lua_getglobal(L, "UpdatePortrayalContextParameters");
         lua_pushstring(L, "testset");
@@ -361,7 +361,7 @@ int runModifiedLuaCreate(TestObjectDrawer &testObjectDrawer, const std::string &
 //    doStringPrintErr(L, "require('mobdebug').start()");
 
     int ttl = 0;
-    for (int iter = 0; iter <= runs; iter++) {
+    for (int iter = 0; iter < runs; iter++) {
         lua_State *L = prepareModState();
         timer t("Their lua");
         lua_getglobal(L, "UpdatePortrayalContextParameters");
