@@ -1,4 +1,4 @@
-﻿-- PhysicalAisAidToNavigation portrayal rules file.
+-- PhysicalAisAidToNavigation portrayal rules file.
 
 -- Main entry point for feature type.
 function PhysicalAisAidToNavigation(feature, featurePortrayal, contextParameters)

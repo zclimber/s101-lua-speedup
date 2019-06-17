@@ -1,4 +1,4 @@
-﻿-- FoulGround portrayal rules file.
+-- FoulGround portrayal rules file.
 
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for OBSTRN where CATOBS = 7.
 

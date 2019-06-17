@@ -1,4 +1,4 @@
-﻿-- ArchipelagicSeaLaneAxis portrayal rules file.
+-- ArchipelagicSeaLaneAxis portrayal rules file.
 
 -- Main entry point for feature type.
 function ArchipelagicSeaLaneAxis(feature, featurePortrayal, contextParameters)

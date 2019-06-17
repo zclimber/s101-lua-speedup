@@ -1,4 +1,4 @@
-﻿-- RESCSP03 conditional symbology rules file.
+-- RESCSP03 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function RESCSP03(feature, featurePortrayal, contextParameters)

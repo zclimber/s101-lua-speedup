@@ -1,4 +1,4 @@
-﻿-- LITDSN02 conditional symbology rules file.
+-- LITDSN02 conditional symbology rules file.
 
 local categoryOfLights = {
     [1] = 'Dir ',

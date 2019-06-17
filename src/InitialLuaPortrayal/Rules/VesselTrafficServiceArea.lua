@@ -1,4 +1,4 @@
-﻿-- VesselTrafficServiceArea portrayal rules file.
+-- VesselTrafficServiceArea portrayal rules file.
 
 -- Main entry point for feature type.
 function VesselTrafficServiceArea(feature, featurePortrayal, contextParameters)

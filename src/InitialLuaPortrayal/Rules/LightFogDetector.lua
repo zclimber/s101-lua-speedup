@@ -1,4 +1,4 @@
-﻿-- LightFogDetector portrayal rules file.
+-- LightFogDetector portrayal rules file.
 
 -- Referenced CSPs.
 require 'LightFlareAndDescription'

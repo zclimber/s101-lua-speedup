@@ -1,4 +1,4 @@
-﻿-- QUAPNT02 conditional symbology rules file.
+-- QUAPNT02 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function QUAPNT02(feature, featurePortrayal, contextParameters)

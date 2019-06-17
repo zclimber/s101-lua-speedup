@@ -1,4 +1,4 @@
-﻿-- SAFCON01 conditional symbology rules file.
+-- SAFCON01 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function SAFCON01(feature, featurePortrayal, contextParameters, displayParameters, depth, spatials)

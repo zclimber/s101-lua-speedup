@@ -1,4 +1,4 @@
-﻿-- SEABED01 conditional symbology rules file.
+-- SEABED01 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function SEABED01(feature, featurePortrayal, contextParameters, depthRangeMinimumValue, depthRangeMaximumValue)

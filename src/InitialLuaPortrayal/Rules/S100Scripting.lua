@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 This file contains the global functions and tables that define the S-100 Lua Scripting Model.
 These functions are intended to be called by the S-100 scripts.
 --]]

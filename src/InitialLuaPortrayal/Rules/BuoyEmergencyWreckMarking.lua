@@ -1,4 +1,4 @@
-﻿-- BuoyEmergencyWreckMarking portrayal rules file.
+-- BuoyEmergencyWreckMarking portrayal rules file.
 
 -- Main entry point for feature type.
 function BuoyEmergencyWreckMarking(feature, featurePortrayal, contextParameters)

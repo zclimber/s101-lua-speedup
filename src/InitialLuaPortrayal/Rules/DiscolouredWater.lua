@@ -1,4 +1,4 @@
-﻿-- DiscolouredWater portrayal rules file.
+-- DiscolouredWater portrayal rules file.
 
 -- Main entry point for feature type.
 function DiscolouredWater(feature, featurePortrayal, contextParameters)

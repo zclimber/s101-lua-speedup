@@ -1,4 +1,4 @@
-﻿-- UpdateInformation conditional symbology rules file.
+-- UpdateInformation conditional symbology rules file.
 
 -- UNOFFICIAL: This feature is purely informational so no portrayal needed.
 

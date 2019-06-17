@@ -1,4 +1,4 @@
-﻿-- DepthNoBottomFound conditional symbology rules file.
+-- DepthNoBottomFound conditional symbology rules file.
 
 -- UNOFFICIAL:  Rules extracted from S-52 rules for soundings with a qualityOfSoundingMeasurement of 5 - no bottom found at value shown.
 

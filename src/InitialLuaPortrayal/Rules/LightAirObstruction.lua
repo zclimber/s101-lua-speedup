@@ -1,4 +1,4 @@
-﻿-- LightAirObstruction portrayal rules file.
+-- LightAirObstruction portrayal rules file.
 
 -- Referenced CSPs.
 require 'LightFlareAndDescription'

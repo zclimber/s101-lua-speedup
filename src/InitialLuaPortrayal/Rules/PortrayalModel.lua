@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 This file contains the global functions that define the Lua Portrayal Model classes.
 These functions are intended to be called by the portrayal rules.
 --]]

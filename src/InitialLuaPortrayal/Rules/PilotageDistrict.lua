@@ -1,4 +1,4 @@
-﻿-- PilotageDistrict portrayal rules file.
+-- PilotageDistrict portrayal rules file.
 
 -- Main entry point for feature type.
 function PilotageDistrict(feature, featurePortrayal, contextParameters)

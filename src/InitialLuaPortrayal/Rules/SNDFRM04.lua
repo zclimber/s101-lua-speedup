@@ -1,4 +1,4 @@
-﻿-- SNDFRM04 conditional symbology rules file.
+-- SNDFRM04 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function SNDFRM04(feature, featurePortrayal, contextParameters, soundingPoint, depthValue)

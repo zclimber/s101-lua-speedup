@@ -1,4 +1,4 @@
-﻿-- Main entry point for feature type.
+-- Main entry point for feature type.
 
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for BRIDGE.
 

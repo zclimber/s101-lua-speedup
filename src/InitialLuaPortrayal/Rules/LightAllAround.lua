@@ -1,4 +1,4 @@
-﻿-- LightAllAround portrayal rules file.
+-- LightAllAround portrayal rules file.
 
 -- Referenced CSPs.
 require 'LightFlareAndDescription'

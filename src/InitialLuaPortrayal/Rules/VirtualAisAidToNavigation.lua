@@ -1,4 +1,4 @@
-﻿-- VirtualAisAidToNavigation portrayal rules file.
+-- VirtualAisAidToNavigation portrayal rules file.
 
 -- Main entry point for feature type.
 function VirtualAisAidToNavigation(feature, featurePortrayal, contextParameters)

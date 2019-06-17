@@ -1,4 +1,4 @@
-﻿-- OffshoreWindTurbine portrayal rules file.
+-- OffshoreWindTurbine portrayal rules file.
 
 -- Main entry point for feature type.
 function OffshoreWindTurbine(feature, featurePortrayal, contextParameters)

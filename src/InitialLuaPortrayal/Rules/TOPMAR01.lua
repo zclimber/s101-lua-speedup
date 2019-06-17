@@ -1,4 +1,4 @@
-﻿-- TOPMAR01 conditional symbology rules file.
+-- TOPMAR01 conditional symbology rules file.
 
 local floatingTopmarks = {
     [1] = 'TOPMAR02',

@@ -1,4 +1,4 @@
-﻿-- QUALIN02 conditional symbology rules file.
+-- QUALIN02 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function QUALIN02(feature, featurePortrayal, contextParameters)

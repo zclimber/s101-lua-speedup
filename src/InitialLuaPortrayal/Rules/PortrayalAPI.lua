@@ -1,4 +1,4 @@
-﻿--[[
+--[[
 This file contains the global functions that define the Lua portrayal API.
 These functions are called by the host program.
 --]]

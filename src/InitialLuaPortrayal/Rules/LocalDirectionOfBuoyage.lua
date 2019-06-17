@@ -1,4 +1,4 @@
-﻿-- LocalDirectionOfBuoyage portrayal rules file.
+-- LocalDirectionOfBuoyage portrayal rules file.
 
 -- UNOFFICIAL:  Rules extracted from S-52 lookup table for M_NSYS.
 

@@ -1,4 +1,4 @@
-﻿require 'S100Scripting'
+require 'S100Scripting'
 require 'PortrayalModel'
 require 'PortrayalAPI'
 require 'Default'

@@ -1,4 +1,4 @@
-﻿-- UDWHAZ05 conditional symbology rules file.
+-- UDWHAZ05 conditional symbology rules file.
 
 -- Main entry point for CSP.
 function UDWHAZ05(feature, featurePortrayal, contextParameters, DEPTH_VALUE)

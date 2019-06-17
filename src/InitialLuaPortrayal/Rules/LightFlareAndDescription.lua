@@ -1,4 +1,4 @@
-﻿-- LightFlareAndDescription portrayal rules file.
+-- LightFlareAndDescription portrayal rules file.
 
 -- Referenced CSPs.
 require 'LITDSN02'
