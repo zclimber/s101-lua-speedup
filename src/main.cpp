@@ -83,22 +83,23 @@ int main() {
     std::string m = "maps/";
     std::vector<std::string> maps = {"101CA00173289", "101CA00273313", "101CA00376166", "101CA00470351",
                                      "101CA00573356", "101CA00673225"};
+
+    std::vector<TestObjectDrawer> drawers;
     std::vector<int> testFeatures;
 //    const int countRuns = 1;
     const int countRuns = 200;
     for (auto &x : maps) {
         std::cout << x << "\n";
-        TestObjectDrawer drawer = readFromXML(m + x + ".usf.xml");
-        doTest(drawer, testFeatures, countRuns);
+        drawers.push_back(readFromXML(m + x + ".usf.xml"));
+        doTest(drawers.back(), testFeatures, countRuns);
     }
 
-
-//    std::vector<int> excluded = {11735, 11746, 11724, 11744, 11745, 12691, 12694, 12695, 12720, 12721, 12669, 12670,
-//                                 12671, 12672, 12673, 12674, 12675, 12676, 11748};
-//    for (auto x : excluded)
-//        drawer.RemoveFeature(x);
-//    TestObjectDrawer drawer = readFromAllXML();
-//    return 0;
+    for(int i = 1; i < maps.size(); i++){
+        std::cout << maps[i-1] << " -> " << maps[i] << ": ";
+        std::cout << runModifiedLuaSwitch(drawers[i-1], drawers[i], countRuns) << " usec\n";
+        std::cout << maps[i] << " -> " << maps[i-1] << ": ";
+        std::cout << runModifiedLuaSwitch(drawers[i], drawers[i-1], countRuns) << " usec\n";
+    }
 
     return 0;
 }

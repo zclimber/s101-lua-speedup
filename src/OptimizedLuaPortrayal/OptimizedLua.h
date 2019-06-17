@@ -18,4 +18,6 @@ int runModifiedLuaCold(TestObjectDrawer &drawer, const std::string &prefix, int 
 int
 runModifiedLuaCreate(TestObjectDrawer &drawer, const std::string &prefix, int runs, const std::vector<int> &features);
 
+int runModifiedLuaSwitch(TestObjectDrawer &first, TestObjectDrawer &second, int runs);
+
 #endif //PROJECT_MYLUA_H

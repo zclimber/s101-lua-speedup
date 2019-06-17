@@ -381,3 +381,51 @@ int runModifiedLuaCreate(TestObjectDrawer &testObjectDrawer, const std::string &
     teardownOpt(runs);
     return ttl;
 }
+
+int runModifiedLuaSwitch(TestObjectDrawer &first, TestObjectDrawer &second, int runs) {
+    std::vector<int> s;
+    first.RunOnAllFeatures([&](IObjectDrawer *drawer1, int clazz, int index) {
+        features_modlua.push_back(index);
+    }, "");
+    second.RunOnAllFeatures([&](IObjectDrawer *drawer1, int clazz, int index) {
+        s.push_back(index + (1U << 20U));
+    }, "");
+
+
+    int ttl = 0;
+    for (int iter = 0; iter < runs; iter += 5) {
+        pDrawer = &first;
+        lua_State *L = prepareModState();
+        runPortrayalMainTimes(L, 10);
+
+        lua_getglobal(L, "ReleasePortrayalContext");
+        lua_pushstring(L, "testset");
+        int res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return -0;
+        }
+        swap(features_modlua, s);
+        pDrawer = &second;
+        lua_getglobal(L, "UpdatePortrayalContextParameters");
+        lua_pushstring(L, "testset");
+        res = lua_pcall(L, 1, 0, 0);
+        if (res != 0) {
+            const char *err = lua_tostring(L, -1);
+            std::cerr << err << "\n";
+            return -0;
+        }
+
+        timer t("Their lua");
+
+        runPortrayalMainTimes(L, 1);
+
+        ttl += t.stop();
+        swap(features_modlua, s);
+        lua_close(L);
+    }
+
+    teardownOpt(runs);
+    return ttl / runs;
+}
